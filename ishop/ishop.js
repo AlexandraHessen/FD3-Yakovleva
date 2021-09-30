@@ -15,8 +15,8 @@ var Ishop = React.createClass({
 // render возвращает всегда только 1 тег, если нужно больше обаращиваем все в div
     render: function(){
         var goodsCode=[];
-        function goodsRender(v){
-            var good=v;
+        this.props.goods.forEach(function (elem) {
+            var good=elem;
             var goodCode=
             React.DOM.div({key:good.code, className: "Good"},
             //первый всегда атрибуты
@@ -30,7 +30,7 @@ var Ishop = React.createClass({
 
             goodsCode.push(goodCode);
         }
-        this.props.goods.forEach(goodsRender);
+        );
 
         return React.DOM.div({className: 'Ishop'},
             React.DOM.div({className: 'NameShop'}, this.props.name),
