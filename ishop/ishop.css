@@ -1,0 +1,31 @@
+.Ishop .NameShop{
+font-weight: bold;
+font-size: 3em;
+background-color:blueviolet;
+color: #fff;
+padding-left: 0.5em;
+}
+
+.Ishop .Goods{
+    display: flex; 
+    flex-direction: row;
+}
+
+.Ishop .Good{
+    border:blueviolet 2px solid;
+    width: 25vw;
+    height: 25vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Ishop .Goods .Name{
+    text-align: center;
+}
+
+.Ishop .Goods .ImgUrl{
+width: 150px;
+height: 150px;
+}
+
