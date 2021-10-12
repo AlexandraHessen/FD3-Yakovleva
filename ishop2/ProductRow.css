@@ -1,0 +1,24 @@
+.ImgGoods{
+    width: 80px;
+    height: 80px;
+}
+
+.InfoGoods{
+    border: 1px solid blueviolet;
+}
+
+.InfoGoods:last-child{
+    position: relative;
+  }
+.InfoGoods .DelButton{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.ProductRowSelect{
+    background-color: rgb(181, 137, 221);
+}
