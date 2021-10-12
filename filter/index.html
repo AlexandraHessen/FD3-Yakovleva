@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter</title>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script src="https://unpkg.com/react@15/dist/react.js"></script> 
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> 
+
+    <script src="FilterBlock.js"></script>
+    <link rel='stylesheet' type="text/css" href="FilterBlock.css"> 
+
+    <script>
+        var textArr=[
+            {text: 'словарь', code:1 }, 
+            {text: 'версия', code:2 }, 
+            {text: 'переменная', code:3 }, 
+            {text: 'истина', code:4 }, 
+            {text: 'проект', code:5 }, 
+            {text: 'оператор', code:6 }, 
+            {text: 'браузер', code:7 }, 
+            {text: 'консоль', code:8 } 
+        ];
+
+        ReactDOM.render(
+            React.createElement(FilterBlock, {text: textArr,}),
+            document.getElementById('container')
+        );
+    
+    </script>
+    
+</body>
+</html>

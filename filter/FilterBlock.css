@@ -1,0 +1,10 @@
+
+.FilterBlock .Words{
+    display: block;
+    width: 10vw;
+    margin-top: 0.5em;
+}
+
+.FilterBlock .ButtonBlock{
+    margin-left: 0.5em;
+}
