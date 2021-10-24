@@ -20,7 +20,7 @@ var ProductRow=React.createClass({
     },
 
     render: function(){
-        return React.DOM.tr({className: ((this.props.selectedProductCode!==this.props.code)?'ProductRow':'ProductRowSelect'), onClick: this.rowSelected,},
+        return React.DOM.tr({className: ((this.props.selectedProductCode!==this.props.code)?'ProductRow':'ProductRow ProductRowSelect'), onClick: this.rowSelected,},
         // если строка выделена меняем class с белым фоном на class с цветным
         React.DOM.td({className: 'InfoGoods'}, this.props.row.name),
         React.DOM.td({className: 'InfoGoods'}, this.props.row.price),

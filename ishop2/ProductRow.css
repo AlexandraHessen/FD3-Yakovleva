@@ -1,16 +1,17 @@
-.ImgGoods{
+.ProductRow .ImgGoods{
     width: 80px;
     height: 80px;
 }
 
-.InfoGoods{
+.ProductRow .InfoGoods{
     border: 1px solid blueviolet;
 }
 
-.InfoGoods:last-child{
+.ProductRow .InfoGoods:last-child{
     position: relative;
-  }
-.InfoGoods .DelButton{
+}
+
+.ProductRow .InfoGoods .DelButton{
     width: 100%;
     position: absolute;
     top: 0;
