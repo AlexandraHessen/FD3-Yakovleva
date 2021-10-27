@@ -1,0 +1,34 @@
+.ProductsGrid{
+    border: 1px solid blueviolet;
+    border-collapse: collapse;
+}
+
+.ProductsGrid .Header{
+    border: 1px solid blueviolet;
+    color: blueviolet
+}.ProductRow .ImgGoods{
+    width: 80px;
+    height: 80px;
+}
+
+.ProductRow .InfoGoods{
+    border: 1px solid blueviolet;
+}
+
+.ProductRow .InfoGoods:last-child{
+    position: relative;
+}
+
+.ProductRow .InfoGoods .DelButton{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.ProductRowSelect{
+    background-color: rgb(181, 137, 221);
+}
+/*# sourceMappingURL=bundle.css.map*/
