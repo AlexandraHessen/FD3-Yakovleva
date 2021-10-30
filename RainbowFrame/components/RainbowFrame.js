@@ -24,18 +24,30 @@ class RainbowFrame extends React.Component {
 //         return <div> {colorFrame} </div>
 
 //--------------------- 2 Способ forEach ---------------------//
-        let code=this.props.children //"Hello"
-        colorArr.forEach((color)=>{
-            code=<div className = "RainbowFrame" style = {{border: "solid 8px " + color, padding: "8px"}}>
-                    {code}
-                </div>
-            }
-        )
-        // ложим в переменную начальный текст, 
-        // затем в эту же перемнную каждую итерацию оборачиваем в div
+        // let code=this.props.children //"Hello"
+        // colorArr.forEach((color)=>{
+        //     code=<div className = "RainbowFrame" style = {{border: "solid 8px " + color, padding: "8px"}}>
+        //             {code}
+        //         </div>
+        //     }
+        // )
+        // // ложим в переменную начальный текст, 
+        // // затем в эту же перемнную каждую итерацию оборачиваем в div
 
 
-        return <div> {code} </div>
+        // return <div> {code} </div>
+        //--------------------- 3 Способ Рекурсия ---------------------//
+        if (this.props.colors.length == 0) {
+            return this.props.children;
+        } else {
+            return ( 
+                <div className = "RainbowFrame" style = {{border: "solid 8px " + this.props.colors[0], padding: "8px"}} >   {/* ОБЯЗАТЕЛЬНО СТАВИТЬ ПРОБЕЛ после 8px */}                                                       
+                    <RainbowFrame colors={this.props.colors.slice(1)}>
+                        {this.props.children}
+                    </RainbowFrame>
+               </div>
+            )
+        }
     }
 }
 
