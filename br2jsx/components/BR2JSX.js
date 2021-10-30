@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import './BR2JSX.css';
 
 const BR2JSX = props =>{
-    // let regExp = /\<[^<>]+\>/;
-    let regExp = /<br *\/?>/;
+    let regExp = /\<[^<>]+\>/; //regExp для любых тегов
+    // let regExp = /<br *\/?>/;
     let textArr= props.text.split(regExp);
     let text=[];
 
