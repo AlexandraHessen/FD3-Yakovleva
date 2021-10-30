@@ -11,7 +11,7 @@ const BR2JSX = props =>{
 
 //--------------------- УДАЛЕНИЕ ЛИШНЕГО (ПЕРВОГО-ПОСЛЕДНЕГО) ЭЛ В МАССИВЕ---------------------//
     textArr.forEach((word, i)=>{ 
-        if(i){ // (i)?text.push(<br key={i}/>): null;
+        if(i){ 
             text.push(<br key={i}/>)
         };         
         text.push(word)
