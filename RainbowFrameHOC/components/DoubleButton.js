@@ -18,7 +18,7 @@ class DoubleButton extends React.Component{
         return(
             <div>
                 <input type="button" value={this.props.caption1} onClick={() => this.cbPressed("1")} className="DoubleButton"/>
-                {this.props.children}
+                    {this.props.children}
                 <input type="button" value={this.props.caption2} onClick={() => this.cbPressed("2")} className="DoubleButton"/>
             </div>
         )
