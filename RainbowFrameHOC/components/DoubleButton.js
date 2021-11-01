@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import "./DoubleButton.css"
+
 class DoubleButton extends React.Component{
     static propTypes={
         caption1: PropTypes.string.isRequired,
@@ -8,14 +10,16 @@ class DoubleButton extends React.Component{
         cbPressed: PropTypes.func.isRequired
     }
 
+    cbPressed = (num) => {
+        this.props.cbPressed(num);
+    };
+
     render(){
-        console.log(this.props.cbPressed)
-        console.log( typeof this.props.cbPressed)
         return(
             <div>
-                <input type="button" value={this.props.caption1} onClick={this.props.cbPressed(1)}/>
+                <input type="button" value={this.props.caption1} onClick={() => this.cbPressed("1")} className="DoubleButton"/>
                 {this.props.children}
-                <input type="button" value={this.props.caption2} onClick={this.props.cbPressed(2)}/>
+                <input type="button" value={this.props.caption2} onClick={() => this.cbPressed("2")} className="DoubleButton"/>
             </div>
         )
     }
