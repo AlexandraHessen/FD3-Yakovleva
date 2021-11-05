@@ -13,6 +13,19 @@ ReactDOM.render(
     , document.getElementById('container')
 );
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ReactDOM.render(
 //     React.createElement(ProductsGrid, {goods: goodsArr}),
 //     document.getElementById('container')

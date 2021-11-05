@@ -1,40 +1,80 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import DOM from 'react-dom-factories';
+
 
 import "./ProductsGrid.css";
 
 import ProductRow from "./ProductRow";
+import ProductEdit from "./ProductEdit";
+import ProductCard from "./ProductCard";
+
 
 class ProductsGrid extends React.Component{
     static propTypes={
-        goods: PropTypes.array.isRequired
+        goods: PropTypes.array.isRequired,
     }
 
     state ={
         goods: this.props.goods.slice(),
         selectedProductCode: null,
+        cardMode: 0,  // 0 - ничего не выводим, 1 - создание товара, 2 - редактирование товара, 3 - просмотр карточки товара
+        isEdit: false,
+        isDelete: false,
+        isValid: true
     }
 
-    rowSelected =(code) =>{
-        this.setState({selectedProductCode: code})
+    // cbSelected =(code) =>{
+    //     this.setState({selectedProductCode: code})
+    // }
+
+    cbShowCard =(code)=>{
+        this.setState({cardMode: 3, selectedProductCode: code, isEdit: false})
+        // (this.state.isEdit==false&&this.state.isDelete==false)
+        // ?this.setState({cardMode: 3, selectedProductCode: code, isEdit: false})
+        // :null
     }
 
-    rowDelete=(code)=>{
+    cbEdit=(code)=>{
+        this.setState({
+            cardMode: 2, 
+            selectedProductCode: code,
+            isEdit: true
+        })
+
+        console.log(this.state.cardMode)
+        // this.setState()
+    }
+
+    cbSave=()=>{
+
+    }
+
+    cbDelete=(code)=>{
         let result=this.state.goods;
         result=result.filter(s=>(s.code!==code));
-        this.setState({goods: result})
+        this.setState({
+            cardMode: 0,
+            goods: result,
+            isDelete: true
+        })
     }
 
     render(){
         var goodsCode=this.state.goods.map( v=>
             <ProductRow key={v.code} row={v} code={v.code} 
             selectedProductCode={this.state.selectedProductCode}
-            cbSelected={this.rowSelected}
-            cbDelete={this.rowDelete}
+            // cbSelected={this.cbSelected}
+            cbShowCard={this.cbShowCard}
+            cbEdit={this.cbEdit}
+            cbDelete={this.cbDelete}
+
             />
         );
+
+        let selectedProductRow=this.state.goods.find((v, i)=>v.code==this.state.selectedProductCode)
+
         return (
+        <div>
             <table className='ProductsGrid'>
                 <tbody>
                     <tr> 
@@ -42,94 +82,36 @@ class ProductsGrid extends React.Component{
                         <th className='Header'>Price</th>
                         <th className='Header'>URL</th>
                         <th className='Header'>Quantity</th>
-                        <th className='Header'>Control</th>
+                        <th className='Header'>Edit</th>
+                        <th className='Header'>Delete</th>
                     </tr>
                     {goodsCode}
                 </tbody>
             </table>
+            <input type='button' value='New product' />
+            {
+                (this.state.cardMode=="1") &&
+                <ProductAdd key={this.state.selectedProductCode} row={selectedProductRow} 
+                />
+            }
 
+            {
+                (this.state.cardMode=="2"&&this.state.isEdit==true) &&
+                <ProductEdit key={this.state.selectedProductCode} row={selectedProductRow} 
+                // cbSave={this.cbSave}
+                />
+                
+            }
 
+            {
+                (this.state.cardMode=="3")&&
+                <ProductCard row={selectedProductRow} 
+                // key={this.state.selectedProductCode} 
+                />
+            }
+            </div>
         )
-        
-        // DOM.table({className: 'ProductsGrid'}, 
-        //     DOM.tbody(null, 
-        //         DOM.tr(null, 
-        //         DOM.th({className: 'Header'}, 'Name'),
-        //         DOM.th({className: 'Header'}, 'Price'),
-        //         DOM.th({className: 'Header'}, 'URL'),
-        //         DOM.th({className: 'Header'}, 'Quantity'),
-        //         DOM.th({className: 'Header'}, 'Control')),
-        //         goodsCode),
-        //     );
     }
 };
 
 export default ProductsGrid;
-
-// var ProductsGrid =React.createClass({
-//     displayName: 'ProductsGrid',
-
-//     propTypes: {
-//         goods: React.PropTypes.array.isRequired
-//     },
-
-//     getInitialState: function(){
-//         return {
-//             goods: this.props.goods.slice(),
-//             selectedProductCode: null,
-//         }
-//     },
-
-//     rowSelected: function(code){
-//         this.setState({selectedProductCode: code})
-//     },
-
-//     rowDelete: function(code){
-//         let result=this.state.goods;
-//         result=result.filter(s=>(s.code!==code));
-//         this.setState({goods: result})
-//     },
-
-//     render: function (){
-//         var goodsCode=this.state.goods.map( v=>
-//             React.createElement(ProductRow, {key:v.code, 
-//                 row: v,
-//                 code: v.code,
-//                 selectedProductCode: this.state.selectedProductCode,
-//                 cbSelected: this.rowSelected,
-//                 cbDelete: this.rowDelete} )
-//         );
-//         return DOM.table({className: 'ProductsGrid'}, 
-//             DOM.tbody(null, 
-//                 DOM.tr(null, 
-//                 DOM.th({className: 'Header'}, 'Name'),
-//                 DOM.th({className: 'Header'}, 'Price'),
-//                 DOM.th({className: 'Header'}, 'URL'),
-//                 DOM.th({className: 'Header'}, 'Quantity'),
-//                 DOM.th({className: 'Header'}, 'Control')),
-//                 goodsCode),
-//             );
-//     },
-// });
-
-
-
-
-
-// Описание нового компонента с именем ИмяКомпонента:
-
-// var ИмяКомпонента = React.createClass({
-//   displayName: "отображаемое имя компонента",
-//   render: function () {
-//     return React.createElement(...);
-//   },
-// })
-
-    // react все делит на стандартные теги и наши компоненты
-    // все стандартные теги с маленькой буквы наши компоненты всегда с Большой
-
-        // render возвращает всегда только 1 тег, если нужно больше оборачиваем все в div
-
-        // DOM.div({className: 'Goods'}, goodsCode),
-        //первый всегда атрибуты
-        // все остальные параменты это содержимое ( второй и тд)
