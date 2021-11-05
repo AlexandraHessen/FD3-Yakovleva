@@ -40,9 +40,6 @@ class ProductsGrid extends React.Component{
             selectedProductCode: code,
             isEdit: true
         })
-
-        console.log(this.state.cardMode)
-        // this.setState()
     }
 
     cbSave=(newRow)=>{
@@ -62,7 +59,6 @@ class ProductsGrid extends React.Component{
     }
 
     render(){
-        console.log(this.state.goods)
         var goodsCode=this.state.goods.map( v=>
             <ProductRow key={v.code} row={v} code={v.code} 
             selectedProductCode={this.state.selectedProductCode}
