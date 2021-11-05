@@ -17,7 +17,7 @@ class ProductsGrid extends React.Component{
     state ={
         goods: this.props.goods.slice(),
         selectedProductCode: null,
-        cardMode: 0,  // 0 - ничего не выводим, 1 - создание товара, 2 - редактирование товара, 3 - просмотр карточки товара
+        cardMode: 0,  // 0 - ничего не выводим, 1 - создание товара, 2 - редактирование и создание товара, 3 - просмотр карточки товара
         isEdit: false,
         isDelete: false,
         isValid: true
@@ -45,7 +45,9 @@ class ProductsGrid extends React.Component{
         // this.setState()
     }
 
-    cbSave=()=>{
+    cbSave=(newRow)=>{
+        let newGoods=this.state.goods.map(row=>(row.code==newRow.code)?newRow:row)
+        this.setState({cardMode: 0, goods: newGoods})
 
     }
 
@@ -60,6 +62,7 @@ class ProductsGrid extends React.Component{
     }
 
     render(){
+        console.log(this.state.goods)
         var goodsCode=this.state.goods.map( v=>
             <ProductRow key={v.code} row={v} code={v.code} 
             selectedProductCode={this.state.selectedProductCode}
@@ -72,6 +75,7 @@ class ProductsGrid extends React.Component{
         );
 
         let selectedProductRow=this.state.goods.find((v, i)=>v.code==this.state.selectedProductCode)
+// нужная строка 
 
         return (
         <div>
@@ -95,10 +99,11 @@ class ProductsGrid extends React.Component{
                 />
             }
 
+{/*----------------------- РЕДАКТИРОВАНИЕ -----------------------*/}
             {
                 (this.state.cardMode=="2"&&this.state.isEdit==true) &&
                 <ProductEdit key={this.state.selectedProductCode} row={selectedProductRow} 
-                // cbSave={this.cbSave}
+                    cbSave={this.cbSave}
                 />
                 
             }
