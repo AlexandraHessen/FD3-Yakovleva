@@ -31,11 +31,17 @@ class ProductEdit extends React.Component{
         isChangedForm: true
     }
 
-    validName = (EO) => {
-        if (EO.target.value === ""){
+    changeName = (EO) => {
+        this.setState({name: EO.target.value})
+
+    }
+
+    validName = (EO) =>{
+        if (this.state.name === ""){
             this.setState({isValidName: true})
-        } else{
-            this.setState({name: EO.target.value})
+        } 
+        else{
+            this.setState({isValidName: false})
         }
     }
     
@@ -80,7 +86,7 @@ class ProductEdit extends React.Component{
             <div className="ProductEdit">
                 <label>ID{this.state.code}</label>
                 <div>
-                    <label>Name<input type="text" value={this.state.name} onChange={this.validName}/></label>
+                    <label>Name<input type="text" value={this.state.name} onChange={this.changeName} onBlur={this.validName}/></label>
                     {(this.state.isValidName)&&<span className="Error">{this.state.nameError}</span>} 
                 </div>
                 <div>
@@ -96,7 +102,7 @@ class ProductEdit extends React.Component{
                     {(this.state.isValidQuant)&&<span className="Error">{this.state.quantError}</span>} 
                 </div>
 
-                <input type="button" value="Save" onClick={this.cbSave} disabled={this.state.isValidForm}/>
+                <input type="button" value="Save" onClick={this.cbSave} disabled={this.state.isValidName}/>
                 <input type="button" value="Cancel"/>
             </div>
             
