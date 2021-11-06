@@ -90,9 +90,9 @@ class ProductEdit extends React.Component{
 
     cbSave=()=>{
         this.props.cbSave({
-            ...this.props.row,  //взять исходный товара и заменить в нем указанне ниже значения (name, price) 
-                                // а все остальное если есть что-то еще оставить неизмнным
-                                // т.к. code уникален и не меняется при edit и есть уже в props его можно отельно не передавать
+            ...this.props.row,  //взять исходный товара и заменить в нем указанные ниже значения (name, price) 
+                                // а все остальное, если есть что-то еще оставить неизменным
+                                // т.к. code уникален и не меняется при edit и есть уже в props его можно отдельно не передавать
             name: this.state.name,
             price: this.state.price,
             url: this.state.url,
