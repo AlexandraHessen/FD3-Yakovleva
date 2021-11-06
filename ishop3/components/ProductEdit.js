@@ -129,7 +129,7 @@ class ProductEdit extends React.Component{
             this.setState({nameNotValid: false}, this.validAll)
         }
 
-        if (this.state.price === ""){
+        if ((this.state.price === "")|| (!(/^(0|[1-9]\d*)([.,]\d+)?/.test(parseFloat(this.state.price))))){
             this.setState({priceNotValid: true}, this.validAll)
         } else{
             this.setState({priceNotValid: false}, this.validAll)
@@ -141,10 +141,11 @@ class ProductEdit extends React.Component{
             this.setState({urlNotValid: false}, this.validAll)
         }
 
-        if (this.state.quant === ""){
+        if ((this.state.quant === "") || (!(/(?<![-.,])\b[0-9]+\b(?!\.[0-9])/.test(parseFloat(this.state.quant))))){
             this.setState({quantNotValid: true}, this.validAll)
         } else{
             this.setState({quantNotValid: false}, this.validAll)
+            console.log((/(?<![-.,])\b[0-9]+\b(?!\.[0-9])/.test(parseFloat(this.state.quant))))
         }
         
 
