@@ -60,7 +60,8 @@ class ProductsGrid extends React.Component{
             this.setState({
                 selectedProductCode: ++code,
                 cardMode: 2, 
-                isAdd: true
+                isAdd: true,
+                // isChanged: true
                 // isEdit: true
             })
         }
@@ -84,7 +85,7 @@ class ProductsGrid extends React.Component{
     
         })
         // console.log(addNewRow)
-        console.log(this.state.goods)
+       
     }
 
     cbDelete=(code)=>{

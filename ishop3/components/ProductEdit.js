@@ -108,34 +108,44 @@ class ProductEdit extends React.Component{
 
     validate = (EO) =>{
         // let nameInput=EO.target.name
-if (this.state[EO.target.name] === ""){
- this.setState({[EO.target.name + "NotValid"]: true}, this.validAll)
-}else{
-    this.setState({[EO.target.name + "NotValid"]: false}, this.validAll)
-}
-        // if (this.state.name === ""){
-        //     this.setState({nameNotValid: true}, this.validAll)
-        // } else{
-        //     this.setState({nameNotValid: false})
+
+        // if (this.state[EO.target.name] === ""){
+        //     this.setState({[EO.target.name + "NotValid"]: true}, this.validAll)
+        // }else{
+        //     this.setState({[EO.target.name + "NotValid"]: false}, this.validAll)
         // }
 
-        // if (this.state.price === ""){
-        //     this.setState({priceNotValid: true})
-        // } else{
-        //     this.setState({priceNotValid: false})
-        // }
+// if (this.state[EO.target.name] === ""){
+//     this.setState({[EO.target.name + "NotValid"]: true}, this.validAll)
+//    }else{
+//        this.setState({[EO.target.name + "NotValid"]: false}, this.validAll)
+//    }
 
-        // if (this.state.url === ""){
-        //     this.setState({urlNotValid: true})
-        // } else{
-        //     this.setState({urlNotValid: false})
-        // }
 
-        // if (this.state.quant === ""){
-        //     this.setState({quantNotValid: true})
-        // } else{
-        //     this.setState({quantNotValid: false})
-        // }
+
+        if (this.state.name === ""){
+            this.setState({nameNotValid: true}, this.validAll)
+        } else{
+            this.setState({nameNotValid: false}, this.validAll)
+        }
+
+        if (this.state.price === ""){
+            this.setState({priceNotValid: true}, this.validAll)
+        } else{
+            this.setState({priceNotValid: false}, this.validAll)
+        }
+
+        if (this.state.url === ""){
+            this.setState({urlNotValid: true}, this.validAll)
+        } else{
+            this.setState({urlNotValid: false}, this.validAll)
+        }
+
+        if (this.state.quant === ""){
+            this.setState({quantNotValid: true}, this.validAll)
+        } else{
+            this.setState({quantNotValid: false}, this.validAll)
+        }
         
 
         // console.log(this.state.nameNotValid||
@@ -161,6 +171,7 @@ if (this.state[EO.target.name] === ""){
             this.state.quantNotValid)
     {
         this.setState({notValidForm: true})
+        this.props.cbChanged(true)
     } else{
         this.setState({notValidForm: false})
     }
@@ -206,6 +217,8 @@ if (this.state[EO.target.name] === ""){
     }
 
     cbAdd=()=>{
+        // this.validAll()
+        // this.props.cbChanged(true) 
         this.props.cbAdd({
             // ...this.props.row,  //взять исходный товара и заменить в нем указанне ниже значения (name, price) 
             //                     // а все остальное если есть что-то еще оставить неизмнным
@@ -216,7 +229,7 @@ if (this.state[EO.target.name] === ""){
             url: this.state.url,
             quant: this.state.quant,
         })
-        this.props.cbChanged(false) 
+         this.props.cbChanged(false) 
     }
 
     cbCancel=()=>{
@@ -229,7 +242,7 @@ if (this.state[EO.target.name] === ""){
             <div className="ProductEdit">
                 <label>ID{this.state.code}</label>
                 <div>
-                    <label>Name<input type="text" value={this.state.name} name="name" onChange={this.cbChanged} onBlur={this.validate}/></label>
+                    <label>Name<input type="text"  value={this.state.name} name="name" onChange={this.cbChanged} onBlur={this.validate} autoFocus={this.state.isAdd}/></label>
                     {(this.state.nameNotValid)&&<span className="Error">{this.state.nameError}</span>} 
                 </div>
                 <div>
