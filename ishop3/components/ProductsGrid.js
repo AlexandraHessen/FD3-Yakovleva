@@ -18,11 +18,11 @@ class ProductsGrid extends React.Component{
         goods: this.props.goods.slice(),
         selectedProductCode: null,
         cardMode: 0,  // 0 - ничего не выводим, 1 - просмотр карточки товара, 2 - редактирование и создание товара
-        isEdit: false,
+        isEdit: false, // = true когда карточка  в режиме редактирования
         isDelete: false,
         isValid: true,
-        isChanged: false,
-        isAdd: false, //проверяем когда добавляем товар чтобы рендерить в компоненте соответствующие кнопки текст под Add
+        isChanged: false, //проверяем были ли внесены какие-либо изменения в форму, чтобы блокировать действия 
+        isAdd: false, //проверяем когда добавляем товар чтобы рендерить в компоненте соответствующие кнопки и текст для Add
     }
 
     cbChanged=(changed)=>{
@@ -50,7 +50,7 @@ class ProductsGrid extends React.Component{
     }
 
     add=()=>{
-        if (!this.state.isChanged){
+        if (!this.state.isChanged && !this.state.isEdit){
             let code=this.state.goods.length
             this.setState({
                 selectedProductCode: ++code,
@@ -66,7 +66,8 @@ class ProductsGrid extends React.Component{
         let editGoods=this.state.goods.map(row=>(row.code==editRow.code)?editRow:row)
         this.setState({
             cardMode: 0, 
-            goods: editGoods
+            goods: editGoods,
+            isEdit: false
         })
     }
 
@@ -78,7 +79,7 @@ class ProductsGrid extends React.Component{
     }
 
     cbDelete=(code)=>{
-        if (!this.state.isChanged){
+        if (!this.state.isChanged && !this.state.isEdit){
             if(confirm('Вы действительно хотите удалить товар?')){
                 let result=this.state.goods;
                 result=result.filter(s=>(s.code!==code));
@@ -92,7 +93,8 @@ class ProductsGrid extends React.Component{
     }
 
     cbCancel=()=>{
-        this.setState({cardMode: 0})
+        this.setState({ cardMode: 0,
+                        isEdit: false})
     }
 
     render(){
@@ -123,11 +125,12 @@ class ProductsGrid extends React.Component{
                     {goodsCode}
                 </tbody>
             </table>
-            {
+            <input type='button' value='New product' onClick={this.add}/>
+            {/* {
                 (!this.state.isEdit)
                 ?<input type='button' value='New product' onClick={this.add}/>
                 :null
-            }
+            } */}
 
 {/*----------------------- ПРОСМОТР КАРТОЧКИ -----------------------*/}            
             {
@@ -138,7 +141,6 @@ class ProductsGrid extends React.Component{
 
 {/*----------------------- РЕДАКТИРОВАНИЕ И СОЗДАНИЕ -----------------------*/}
             {
-                // (this.state.cardMode=="2"&&this.state.isEdit==true) &&
                 (this.state.cardMode=="2") &&
                 <ProductEdit key={this.state.selectedProductCode} 
                             code={this.state.selectedProductCode} 
@@ -147,7 +149,6 @@ class ProductsGrid extends React.Component{
                             cbAdd={this.cbAdd}
                             cbChanged={this.cbChanged}
                             cbCancel={this.cbCancel}
-                            isAdd={this.isAdd}
                 />
             }
         </div>

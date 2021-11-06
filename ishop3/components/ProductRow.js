@@ -22,7 +22,6 @@ class ProductRow extends React.Component{
     cbEdit=(EO)=>{
         EO.stopPropagation();
         this.props.cbEdit(this.props.code)
-        
     }
 
     cbDelete=(EO)=>{

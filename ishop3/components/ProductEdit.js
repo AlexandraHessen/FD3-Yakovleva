@@ -12,7 +12,6 @@ class ProductEdit extends React.Component{
         cbAdd: PropTypes.func.isRequired,
         cbChanged: PropTypes.func.isRequired,
         cbCancel: PropTypes.func.isRequired,
-        isAdd: PropTypes.bool
     }
 
     state={
