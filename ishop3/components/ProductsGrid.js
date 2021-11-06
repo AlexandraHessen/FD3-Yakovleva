@@ -56,8 +56,6 @@ class ProductsGrid extends React.Component{
                 selectedProductCode: ++code,
                 cardMode: 2, 
                 isAdd: true,
-                // isChanged: true
-                // isEdit: true
             })
         }
     }
@@ -126,11 +124,6 @@ class ProductsGrid extends React.Component{
                 </tbody>
             </table>
             <input type='button' value='New product' onClick={this.add}/>
-            {/* {
-                (!this.state.isEdit)
-                ?<input type='button' value='New product' onClick={this.add}/>
-                :null
-            } */}
 
 {/*----------------------- ПРОСМОТР КАРТОЧКИ -----------------------*/}            
             {
