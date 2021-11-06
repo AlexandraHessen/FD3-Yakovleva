@@ -14,6 +14,7 @@ class ProductEdit extends React.Component{
         cbSave: PropTypes.func.isRequired,
         cbAdd: PropTypes.func.isRequired,
         cbChanged: PropTypes.func.isRequired,
+        cbCancel: PropTypes.func.isRequired,
         // isChanged: PropTypes.bool.isRequired
         isAdd: PropTypes.bool
     }
@@ -206,10 +207,12 @@ class ProductEdit extends React.Component{
         this.props.cbChanged(false) 
     }
 
-
+    cbCancel=()=>{
+        this.props.cbCancel()
+        this.props.cbChanged(false) 
+    }
 
     render(){
-        console.log(this.state.isAdd)
         return(
             <div className="ProductEdit">
                 <label>ID{this.state.code}</label>
@@ -239,7 +242,7 @@ class ProductEdit extends React.Component{
                         ?<input type="button" value="Add" onClick={this.cbAdd} disabled={this.state.notValidForm}/>
                         :<input type="button" value="Save" onClick={this.cbSave} disabled={this.state.notValidForm}/>
                 }
-                <input type="button" value="Cancel"/>
+                <input type="button" value="Cancel" onClick={this.cbCancel}/>
             </div>
             
         )

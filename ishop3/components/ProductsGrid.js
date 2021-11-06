@@ -35,7 +35,6 @@ class ProductsGrid extends React.Component{
     }
 
     cbShowCard =(code)=>{
-        console.log(!this.state.isChanged)
         if (!this.state.isChanged){
             this.setState({
                 cardMode: 1, 
@@ -46,7 +45,6 @@ class ProductsGrid extends React.Component{
     }
 
     cbEdit=(code)=>{
-        console.log(!this.state.isChanged)
         if (!this.state.isChanged){
             this.setState({
                 cardMode: 2, 
@@ -57,11 +55,8 @@ class ProductsGrid extends React.Component{
     }
 
     add=()=>{
-        console.log(!this.state.isChanged)
         if (!this.state.isChanged){
-            console.log(this.state.goods.length)
             let code=this.state.goods.length
-            console.log(code)
             this.setState({
                 selectedProductCode: ++code,
                 cardMode: 2, 
@@ -69,8 +64,6 @@ class ProductsGrid extends React.Component{
                 // isEdit: true
             })
         }
-        console.log(this.state.goods)
-        console.log(this.state.selectedProductCode)
     }
 
     cbSave=(editRow)=>{
@@ -109,6 +102,10 @@ class ProductsGrid extends React.Component{
         }
     }
 
+    cbCancel=()=>{
+        this.setState({cardMode: 0})
+    }
+
     render(){
         var goodsCode=this.state.goods.map( v=>
             <ProductRow key={v.code} row={v} code={v.code} 
@@ -121,7 +118,7 @@ class ProductsGrid extends React.Component{
         );
 
         let selectedProductRow=this.state.goods.find((v, i)=>v.code==this.state.selectedProductCode)
-console.log(this.state.selectedProductCode)
+
 // СТРОКА ДЛЯ РАБОТЫ
 
         return (
@@ -158,8 +155,10 @@ console.log(this.state.selectedProductCode)
                             cbSave={this.cbSave}
                             cbAdd={this.cbAdd}
                             cbChanged={this.cbChanged}
+                            cbCancel={this.cbCancel}
                             // isChanged={this.state.isChanged}
                             isAdd={this.isAdd}
+
                 />
                 
             }
