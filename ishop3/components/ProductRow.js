@@ -15,12 +15,7 @@ class ProductRow extends React.Component{
         cbDelete: PropTypes.func,
     }
 
-    // cbSelected =(EO)=>{
-    //     this.props.cbSelected(this.props.code);
-    // }
-
     cbShowCard=(EO)=>{
-        // this.props.cbSelected(this.props.code);
         this.props.cbShowCard(this.props.code);
     }
 
@@ -33,9 +28,6 @@ class ProductRow extends React.Component{
     cbDelete=(EO)=>{
         EO.stopPropagation();
         this.props.cbDelete(this.props.code)
-        // confirm('Вы действительно хотите удалить товар?')
-        // ?this.props.cbDelete(this.props.code)
-        // :null
     }
 
     render(){

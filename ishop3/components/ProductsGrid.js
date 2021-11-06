@@ -22,16 +22,11 @@ class ProductsGrid extends React.Component{
         isDelete: false,
         isValid: true,
         isChanged: false,
-        isAdd: false, //проверяем когда добавляем товар чтобы рендарить в компоненте соответствущие кнопеи и тест под Add
+        isAdd: false, //проверяем когда добавляем товар чтобы рендерить в компоненте соответствующие кнопки текст под Add
     }
-
-    // cbSelected =(code) =>{
-    //     this.setState({selectedProductCode: code})
-    // }
 
     cbChanged=(changed)=>{
         this.setState({isChanged: changed})
-
     }
 
     cbShowCard =(code)=>{
@@ -76,16 +71,10 @@ class ProductsGrid extends React.Component{
     }
 
     cbAdd=(newRow)=>{
-        console.log(this.state.goods)
-        console.log(newRow)
-        
         this.state.goods.push(newRow)
         this.setState({
             cardMode: 0, 
-    
         })
-        // console.log(addNewRow)
-       
     }
 
     cbDelete=(code)=>{
@@ -110,16 +99,14 @@ class ProductsGrid extends React.Component{
         var goodsCode=this.state.goods.map( v=>
             <ProductRow key={v.code} row={v} code={v.code} 
             selectedProductCode={this.state.selectedProductCode}
-            // cbSelected={this.cbSelected}
             cbShowCard={this.cbShowCard}
             cbEdit={this.cbEdit}
             cbDelete={this.cbDelete}
             />
         );
 
-        let selectedProductRow=this.state.goods.find((v, i)=>v.code==this.state.selectedProductCode)
-
 // СТРОКА ДЛЯ РАБОТЫ
+        let selectedProductRow=this.state.goods.find((v, i)=>v.code==this.state.selectedProductCode)
 
         return (
         <div>
@@ -142,7 +129,6 @@ class ProductsGrid extends React.Component{
                 :null
             }
 
-
 {/*----------------------- ПРОСМОТР КАРТОЧКИ -----------------------*/}            
             {
                 (this.state.cardMode=="1") &&
@@ -161,13 +147,10 @@ class ProductsGrid extends React.Component{
                             cbAdd={this.cbAdd}
                             cbChanged={this.cbChanged}
                             cbCancel={this.cbCancel}
-                            // isChanged={this.state.isChanged}
                             isAdd={this.isAdd}
-
                 />
-                
             }
-            </div>
+        </div>
         )
     }
 };

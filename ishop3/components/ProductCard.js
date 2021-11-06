@@ -5,7 +5,6 @@ import "./ProductCard.css"
 
 class ProductCard extends React.Component{
     static propTypes={
-        // key: PropTypes.string.isRequired,
         row: PropTypes.object.isRequired
     }
 
