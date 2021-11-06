@@ -22,7 +22,6 @@ class ProductRow extends React.Component{
     cbShowCard=(EO)=>{
         // this.props.cbSelected(this.props.code);
         this.props.cbShowCard(this.props.code);
-        console.log("dspjd")
     }
 
     cbEdit=(EO)=>{
@@ -33,9 +32,10 @@ class ProductRow extends React.Component{
 
     cbDelete=(EO)=>{
         EO.stopPropagation();
-        confirm('Вы действительно хотите удалить товар?')
-        ?this.props.cbDelete(this.props.code)
-        :null
+        this.props.cbDelete(this.props.code)
+        // confirm('Вы действительно хотите удалить товар?')
+        // ?this.props.cbDelete(this.props.code)
+        // :null
     }
 
     render(){

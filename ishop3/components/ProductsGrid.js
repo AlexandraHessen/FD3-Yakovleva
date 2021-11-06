@@ -17,45 +17,70 @@ class ProductsGrid extends React.Component{
     state ={
         goods: this.props.goods.slice(),
         selectedProductCode: null,
-        cardMode: 0,  // 0 - ничего не выводим, 1 - создание товара, 2 - редактирование и создание товара, 3 - просмотр карточки товара
+        cardMode: 0,  // 0 - ничего не выводим, 1 - просмотр карточки товара, 2 - редактирование и создание товара
         isEdit: false,
         isDelete: false,
-        isValid: true
+        isValid: true,
+        isChanged: false,
     }
 
     // cbSelected =(code) =>{
     //     this.setState({selectedProductCode: code})
     // }
 
+    cbChanged=(changed)=>{
+        this.setState({isChanged: changed})
+
+    }
+
     cbShowCard =(code)=>{
-        this.setState({cardMode: 3, selectedProductCode: code, isEdit: false})
-        // (this.state.isEdit==false&&this.state.isDelete==false)
-        // ?this.setState({cardMode: 3, selectedProductCode: code, isEdit: false})
-        // :null
+        console.log(!this.state.isChanged)
+        if (!this.state.isChanged){
+            this.setState({
+                cardMode: 1, 
+                selectedProductCode: code, 
+                isEdit: false
+            })
+        }
     }
 
     cbEdit=(code)=>{
-        this.setState({
-            cardMode: 2, 
-            selectedProductCode: code,
-            isEdit: true
-        })
+        console.log(!this.state.isChanged)
+        if (!this.state.isChanged){
+            this.setState({
+                cardMode: 2, 
+                selectedProductCode: code,
+                isEdit: true
+            })
+        }
+
     }
 
     cbSave=(newRow)=>{
         let newGoods=this.state.goods.map(row=>(row.code==newRow.code)?newRow:row)
-        this.setState({cardMode: 0, goods: newGoods})
-
+        this.setState({
+            cardMode: 0, 
+            goods: newGoods
+        })
     }
 
     cbDelete=(code)=>{
-        let result=this.state.goods;
-        result=result.filter(s=>(s.code!==code));
-        this.setState({
-            cardMode: 0,
-            goods: result,
-            isDelete: true
-        })
+        console.log(!this.state.isChanged)
+        if (!this.state.isChanged){
+            if(confirm('Вы действительно хотите удалить товар?')){
+                let result=this.state.goods;
+                result=result.filter(s=>(s.code!==code));
+                this.setState({
+                    cardMode: 0,
+                    goods: result,
+                    isDelete: true
+                })
+            } 
+        //     confirm('Вы действительно хотите удалить товар?')
+        // ?this.props.cbDelete(this.props.code)
+        // :null
+
+        }
     }
 
     render(){
@@ -66,12 +91,11 @@ class ProductsGrid extends React.Component{
             cbShowCard={this.cbShowCard}
             cbEdit={this.cbEdit}
             cbDelete={this.cbDelete}
-
             />
         );
 
         let selectedProductRow=this.state.goods.find((v, i)=>v.code==this.state.selectedProductCode)
-// нужная строка 
+// СТРОКА ДЛЯ РАБОТЫ
 
         return (
         <div>
@@ -89,26 +113,24 @@ class ProductsGrid extends React.Component{
                 </tbody>
             </table>
             <input type='button' value='New product' />
+
+{/*----------------------- ПРОСМОТР КАРТОЧКИ -----------------------*/}            
             {
                 (this.state.cardMode=="1") &&
-                <ProductAdd key={this.state.selectedProductCode} row={selectedProductRow} 
+                <ProductCard row={selectedProductRow} 
+                // key={this.state.selectedProductCode} 
                 />
             }
 
-{/*----------------------- РЕДАКТИРОВАНИЕ -----------------------*/}
+{/*----------------------- РЕДАКТИРОВАНИЕ И СОЗДАНИЕ -----------------------*/}
             {
                 (this.state.cardMode=="2"&&this.state.isEdit==true) &&
                 <ProductEdit key={this.state.selectedProductCode} row={selectedProductRow} 
                     cbSave={this.cbSave}
+                    cbChanged={this.cbChanged}
+                    isChanged={this.state.isChanged}
                 />
                 
-            }
-
-            {
-                (this.state.cardMode=="3")&&
-                <ProductCard row={selectedProductRow} 
-                // key={this.state.selectedProductCode} 
-                />
             }
             </div>
         )
