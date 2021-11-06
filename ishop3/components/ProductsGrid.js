@@ -88,7 +88,6 @@ class ProductsGrid extends React.Component{
     }
 
     cbDelete=(code)=>{
-        console.log(!this.state.isChanged)
         if (!this.state.isChanged){
             if(confirm('Вы действительно хотите удалить товар?')){
                 let result=this.state.goods;

@@ -38,10 +38,10 @@ class ProductEdit extends React.Component{
         // url: this.props.row.url,
         // quant: this.props.row.quant,
 
-        notValidName: false,    // если валидно то false, потому что ошибка <span> отображается при true  (логич выражение) && JSX
-        notValidPrice: false,
-        notValidUrl: false,
-        notValidQuant: false,
+        nameNotValid: false,    // если валидно то false, потому что ошибка <span> отображается при true  (логич выражение) && JSX
+        priceNotValid: false,
+        urlNotValid: false,
+        quantNotValid: false,
 
         nameError: 'Please, fill the field. Value must be a string',
         priceError: 'Please, fill the field. Value must be a rational number greater than 0',
@@ -99,52 +99,50 @@ class ProductEdit extends React.Component{
 
     // validValue=()=>{
     //     if (this.state.name === ""){
-    //         this.setState({notValidName: true})
+    //         this.setState({nameNotValid: true})
     //     } else{
-    //         this.setState({notValidName: false})
+    //         this.setState({nameNotValid: false})
     //     }
     // }
 
 
-    validate = () =>{
-        if (this.state.name === ""){
-            this.setState({notValidName: true})
-        } else{
-            this.setState({notValidName: false})
-        }
+    validate = (EO) =>{
+        // let nameInput=EO.target.name
+if (this.state[EO.target.name] === ""){
+ this.setState({[EO.target.name + "NotValid"]: true}, this.validAll)
+}else{
+    this.setState({[EO.target.name + "NotValid"]: false}, this.validAll)
+}
+        // if (this.state.name === ""){
+        //     this.setState({nameNotValid: true}, this.validAll)
+        // } else{
+        //     this.setState({nameNotValid: false})
+        // }
 
-        if (this.state.price === ""){
-            this.setState({notValidPrice: true})
-        } else{
-            this.setState({notValidPrice: false})
-        }
+        // if (this.state.price === ""){
+        //     this.setState({priceNotValid: true})
+        // } else{
+        //     this.setState({priceNotValid: false})
+        // }
 
-        if (this.state.url === ""){
-            this.setState({notValidUrl: true})
-        } else{
-            this.setState({notValidUrl: false})
-        }
+        // if (this.state.url === ""){
+        //     this.setState({urlNotValid: true})
+        // } else{
+        //     this.setState({urlNotValid: false})
+        // }
 
-        if (this.state.quant === ""){
-            this.setState({notValidQuant: true})
-        } else{
-            this.setState({notValidQuant: false})
-        }
+        // if (this.state.quant === ""){
+        //     this.setState({quantNotValid: true})
+        // } else{
+        //     this.setState({quantNotValid: false})
+        // }
         
-        if (this.state.notValidName||
-            this.state.notValidPrice||
-            this.state.notValidUrl||
-            this.state.notValidQuant)
-    {
-        this.setState({notValidForm: true})
-    } else{
-        this.setState({notValidForm: false})
-    }
-        // console.log(this.state.notValidName||
-        //     this.state.notValidPrice||
-        //     this.state.notValidUrl||
-        //     this.state.notValidQuant)
-        //     console.log(this.state.notValidName)
+
+        // console.log(this.state.nameNotValid||
+        //     this.state.priceNotValid||
+        //     this.state.urlNotValid||
+        //     this.state.quantNotValid)
+        //     console.log(this.state.nameNotValid)
         // if ((this.state.name === "")&&
         //     (this.state.price === "")&&
         //     (this.state.url === "")&&
@@ -155,10 +153,24 @@ class ProductEdit extends React.Component{
         //     this.setState({notValidForm: false})
         // }
     }
+
+    validAll=()=>{
+        if (this.state.nameNotValid||
+            this.state.priceNotValid||
+            this.state.urlNotValid||
+            this.state.quantNotValid)
+    {
+        this.setState({notValidForm: true})
+    } else{
+        this.setState({notValidForm: false})
+    }
+    }
+
+
     
     // validPrice = (EO) => {
     //     if (EO.target.value === ""){
-    //         this.setState({notValidPrice: true})
+    //         this.setState({priceNotValid: true})
     //     } else{
     //         this.setState({price: EO.target.value})
     //     }
@@ -166,7 +178,7 @@ class ProductEdit extends React.Component{
     
     // validUrl = (EO) => {
     //     if (EO.target.value === ""){
-    //         this.setState({notValidUrl: true})
+    //         this.setState({urlNotValid: true})
     //     } else{
     //         this.setState({url: EO.target.value})
     //     }
@@ -174,7 +186,7 @@ class ProductEdit extends React.Component{
     
     // validQuant = (EO) => {
     //     if (EO.target.value === ""){
-    //         this.setState({notValidQuant: true})
+    //         this.setState({quantNotValid: true})
     //     } else{
     //         this.setState({quant: EO.target.value})
     //     }
@@ -218,23 +230,23 @@ class ProductEdit extends React.Component{
                 <label>ID{this.state.code}</label>
                 <div>
                     <label>Name<input type="text" value={this.state.name} name="name" onChange={this.cbChanged} onBlur={this.validate}/></label>
-                    {(this.state.notValidName)&&<span className="Error">{this.state.nameError}</span>} 
+                    {(this.state.nameNotValid)&&<span className="Error">{this.state.nameError}</span>} 
                 </div>
                 <div>
                     <label>Price<input type="text" value={this.state.price} name="price" onChange={this.cbChanged} onBlur={this.validate}/></label>
                     {/* <label>Price<input type="text" value={this.state.price} onChange={this.validPrice}/></label> */}
-                    {(this.state.notValidPrice)&&<span className="Error">{this.state.priceError}</span>} 
+                    {(this.state.priceNotValid)&&<span className="Error">{this.state.priceError}</span>} 
                 </div>
                 <div>
                     <label>URL<input type="text" value={this.state.url} name="url" onChange={this.cbChanged} onBlur={this.validate}/></label>
                     {/* <label>URL<input type="text" value={this.state.url} onChange={this.validUrl}/></label> */}
                     {/* <label>URL<input type="text" value={this.state.url} onChange={this.validUrl}/></label> */}
-                    {(this.state.notValidUrl)&&<span className="Error">{this.state.urlError}</span>} 
+                    {(this.state.urlNotValid)&&<span className="Error">{this.state.urlError}</span>} 
                 </div>
                 <div>
                     <label>Quantity<input type="text" value={this.state.quant} name="quant" onChange={this.cbChanged} onBlur={this.validate}/></label>
                     {/* <label>Quantity<input type="text" value={this.state.quant} onChange={this.validQuant}/></label> */}
-                    {(this.state.notValidQuant)&&<span className="Error">{this.state.quantError}</span>} 
+                    {(this.state.quantNotValid)&&<span className="Error">{this.state.quantError}</span>} 
                 </div>
                 
                 {
