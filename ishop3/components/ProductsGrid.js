@@ -22,6 +22,7 @@ class ProductsGrid extends React.Component{
         isDelete: false,
         isValid: true,
         isChanged: false,
+        isAdd: false, //проверяем когда добавляем товар чтобы рендарить в компоненте соответствущие кнопеи и тест под Add
     }
 
     // cbSelected =(code) =>{
@@ -64,8 +65,8 @@ class ProductsGrid extends React.Component{
             this.setState({
                 selectedProductCode: ++code,
                 cardMode: 2, 
-                
-                isEdit: true
+                isAdd: true
+                // isEdit: true
             })
         }
         console.log(this.state.goods)
@@ -109,7 +110,6 @@ class ProductsGrid extends React.Component{
     }
 
     render(){
-        console.log(this.state.goods)
         var goodsCode=this.state.goods.map( v=>
             <ProductRow key={v.code} row={v} code={v.code} 
             selectedProductCode={this.state.selectedProductCode}
@@ -120,9 +120,8 @@ class ProductsGrid extends React.Component{
             />
         );
 
-        console.log(this.state.selectedProductCode)
         let selectedProductRow=this.state.goods.find((v, i)=>v.code==this.state.selectedProductCode)
-        console.log(selectedProductRow)
+console.log(this.state.selectedProductCode)
 // СТРОКА ДЛЯ РАБОТЫ
 
         return (
@@ -151,13 +150,16 @@ class ProductsGrid extends React.Component{
 
 {/*----------------------- РЕДАКТИРОВАНИЕ И СОЗДАНИЕ -----------------------*/}
             {
-                (this.state.cardMode=="2"&&this.state.isEdit==true) &&
-                <ProductEdit code={this.state.selectedProductCode} 
+                // (this.state.cardMode=="2"&&this.state.isEdit==true) &&
+                (this.state.cardMode=="2") &&
+                <ProductEdit key={this.state.selectedProductCode} 
+                            code={this.state.selectedProductCode} 
                             row={selectedProductRow} 
                             cbSave={this.cbSave}
                             cbAdd={this.cbAdd}
                             cbChanged={this.cbChanged}
-                            isChanged={this.state.isChanged}
+                            // isChanged={this.state.isChanged}
+                            isAdd={this.isAdd}
                 />
                 
             }

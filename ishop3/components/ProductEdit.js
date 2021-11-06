@@ -7,14 +7,24 @@ class ProductEdit extends React.Component{
 
     static propTypes={
         code: PropTypes.number.isRequired,
+
         row: PropTypes.object,
+
+        // row: PropTypes.object.isRequired,
         cbSave: PropTypes.func.isRequired,
         cbAdd: PropTypes.func.isRequired,
         cbChanged: PropTypes.func.isRequired,
-        isChanged: PropTypes.bool.isRequired
+        // isChanged: PropTypes.bool.isRequired
+        isAdd: PropTypes.bool
     }
 
     state={
+        // code: this.props.row.code,
+        // name: this.props.row.name,
+        // price: this.props.row.price,
+        // url: this.props.row.url,
+        // quant: this.props.row.quant,
+
         code: this.props.code,
         name: (this.props.row)?this.props.row.name:"",
         price: (this.props.row)?this.props.row.price:"",
@@ -39,6 +49,7 @@ class ProductEdit extends React.Component{
 
         notValidForm: false, // если валидно то false, потому что при ошибке button disabled= true
         // isChanged: this.props.isChanged
+        isAdd: (!this.props.row)?true:null
     }
 
     // cbChanged = () =>{
@@ -198,6 +209,7 @@ class ProductEdit extends React.Component{
 
 
     render(){
+        console.log(this.state.isAdd)
         return(
             <div className="ProductEdit">
                 <label>ID{this.state.code}</label>
@@ -221,9 +233,12 @@ class ProductEdit extends React.Component{
                     {/* <label>Quantity<input type="text" value={this.state.quant} onChange={this.validQuant}/></label> */}
                     {(this.state.notValidQuant)&&<span className="Error">{this.state.quantError}</span>} 
                 </div>
-
-                <input type="button" value="Save" onClick={this.cbSave} disabled={this.state.notValidForm}/>
-                <input type="button" value="Add" onClick={this.cbAdd} disabled={this.state.notValidForm}/>
+                
+                {
+                    (this.state.isAdd)
+                        ?<input type="button" value="Add" onClick={this.cbAdd} disabled={this.state.notValidForm}/>
+                        :<input type="button" value="Save" onClick={this.cbSave} disabled={this.state.notValidForm}/>
+                }
                 <input type="button" value="Cancel"/>
             </div>
             
