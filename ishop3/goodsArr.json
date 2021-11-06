@@ -1,20 +1,20 @@
 [{
-        "name": "Apple iPhone 13",
         "code": 1,
+        "name": "Apple iPhone 13",
         "price": "1250$",
         "url": "https://i-product.by/images/b/apple-iphone-13-pro-max-128gb-zolotoj_1.jpg",
         "quant": 25
     },
     {
-        "name": "Samsung Galaxy Z",
         "code": 2,
+        "name": "Samsung Galaxy Z",
         "price": "1200$",
         "url": "https://shop.by/images/samsung_galaxy_z_fold2_12gb_256gb_black_(sm_f916b)_1.jpg",
         "quant": 44
     },
     {
-        "name": "Xiaomi 11",
         "code": 3,
+        "name": "Xiaomi 11",
         "price": "550$",
         "url": "https://xistore.by/upload/resize/element/52053/29c/755310f0a843a12c87146daa24f5daa5_482_482_40@x2.jpg",
         "quant": 10

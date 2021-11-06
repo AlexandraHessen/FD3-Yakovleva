@@ -53,15 +53,44 @@ class ProductsGrid extends React.Component{
                 isEdit: true
             })
         }
-
     }
 
-    cbSave=(newRow)=>{
-        let newGoods=this.state.goods.map(row=>(row.code==newRow.code)?newRow:row)
+    add=()=>{
+        console.log(!this.state.isChanged)
+        if (!this.state.isChanged){
+            console.log(this.state.goods.length)
+            let code=this.state.goods.length
+            console.log(code)
+            this.setState({
+                selectedProductCode: ++code,
+                cardMode: 2, 
+                
+                isEdit: true
+            })
+        }
+        console.log(this.state.goods)
+        console.log(this.state.selectedProductCode)
+    }
+
+    cbSave=(editRow)=>{
+        let editGoods=this.state.goods.map(row=>(row.code==editRow.code)?editRow:row)
         this.setState({
             cardMode: 0, 
-            goods: newGoods
+            goods: editGoods
         })
+    }
+
+    cbAdd=(newRow)=>{
+        console.log(this.state.goods)
+        console.log(newRow)
+        
+        this.state.goods.push(newRow)
+        this.setState({
+            cardMode: 0, 
+    
+        })
+        // console.log(addNewRow)
+        console.log(this.state.goods)
     }
 
     cbDelete=(code)=>{
@@ -76,14 +105,11 @@ class ProductsGrid extends React.Component{
                     isDelete: true
                 })
             } 
-        //     confirm('Вы действительно хотите удалить товар?')
-        // ?this.props.cbDelete(this.props.code)
-        // :null
-
         }
     }
 
     render(){
+        console.log(this.state.goods)
         var goodsCode=this.state.goods.map( v=>
             <ProductRow key={v.code} row={v} code={v.code} 
             selectedProductCode={this.state.selectedProductCode}
@@ -94,7 +120,9 @@ class ProductsGrid extends React.Component{
             />
         );
 
+        console.log(this.state.selectedProductCode)
         let selectedProductRow=this.state.goods.find((v, i)=>v.code==this.state.selectedProductCode)
+        console.log(selectedProductRow)
 // СТРОКА ДЛЯ РАБОТЫ
 
         return (
@@ -112,23 +140,24 @@ class ProductsGrid extends React.Component{
                     {goodsCode}
                 </tbody>
             </table>
-            <input type='button' value='New product' />
+            <input type='button' value='New product' onClick={this.add}/>
 
 {/*----------------------- ПРОСМОТР КАРТОЧКИ -----------------------*/}            
             {
                 (this.state.cardMode=="1") &&
                 <ProductCard row={selectedProductRow} 
-                // key={this.state.selectedProductCode} 
                 />
             }
 
 {/*----------------------- РЕДАКТИРОВАНИЕ И СОЗДАНИЕ -----------------------*/}
             {
                 (this.state.cardMode=="2"&&this.state.isEdit==true) &&
-                <ProductEdit key={this.state.selectedProductCode} row={selectedProductRow} 
-                    cbSave={this.cbSave}
-                    cbChanged={this.cbChanged}
-                    isChanged={this.state.isChanged}
+                <ProductEdit code={this.state.selectedProductCode} 
+                            row={selectedProductRow} 
+                            cbSave={this.cbSave}
+                            cbAdd={this.cbAdd}
+                            cbChanged={this.cbChanged}
+                            isChanged={this.state.isChanged}
                 />
                 
             }

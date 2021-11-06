@@ -6,18 +6,26 @@ import "./ProductEdit.css";
 class ProductEdit extends React.Component{
 
     static propTypes={
-        row: PropTypes.object.isRequired,
+        code: PropTypes.number.isRequired,
+        row: PropTypes.object,
         cbSave: PropTypes.func.isRequired,
+        cbAdd: PropTypes.func.isRequired,
         cbChanged: PropTypes.func.isRequired,
         isChanged: PropTypes.bool.isRequired
     }
 
     state={
-        code: this.props.row.code,
-        name: this.props.row.name,
-        price: this.props.row.price,
-        url: this.props.row.url,
-        quant: this.props.row.quant,
+        code: this.props.code,
+        name: (this.props.row)?this.props.row.name:"",
+        price: (this.props.row)?this.props.row.price:"",
+        url: (this.props.row)?this.props.row.url:"",
+        quant: (this.props.row)?this.props.row.quant:"",
+
+        // code: (this.props.row)?this.props.row.code:"",
+        // name: this.props.row.name,
+        // price: this.props.row.price,
+        // url: this.props.row.url,
+        // quant: this.props.row.quant,
 
         notValidName: false,    // если валидно то false, потому что ошибка <span> отображается при true  (логич выражение) && JSX
         notValidPrice: false,
@@ -173,6 +181,22 @@ class ProductEdit extends React.Component{
         this.props.cbChanged(false) 
     }
 
+    cbAdd=()=>{
+        this.props.cbAdd({
+            // ...this.props.row,  //взять исходный товара и заменить в нем указанне ниже значения (name, price) 
+            //                     // а все остальное если есть что-то еще оставить неизмнным
+            //                     // т.к. code уникален и не меняется при edit и есть уже в props его можно отельно не передавать
+            code: this.props.code,
+            name: this.state.name,
+            price: this.state.price,
+            url: this.state.url,
+            quant: this.state.quant,
+        })
+        this.props.cbChanged(false) 
+    }
+
+
+
     render(){
         return(
             <div className="ProductEdit">
@@ -199,6 +223,7 @@ class ProductEdit extends React.Component{
                 </div>
 
                 <input type="button" value="Save" onClick={this.cbSave} disabled={this.state.notValidForm}/>
+                <input type="button" value="Add" onClick={this.cbAdd} disabled={this.state.notValidForm}/>
                 <input type="button" value="Cancel"/>
             </div>
             
