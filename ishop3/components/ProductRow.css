@@ -11,23 +11,9 @@
     position: relative;
 }
 
-.ProductRow .InfoGoods .DelButton{
+.ProductRow .InfoGoods .DelButton, .EditButton{
     width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
 }
-
-/* .ProductRow .InfoGoods{
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-} */
 
 .ProductRowSelect{
     background-color: rgb(181, 137, 221);

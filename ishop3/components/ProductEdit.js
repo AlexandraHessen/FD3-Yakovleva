@@ -7,24 +7,16 @@ class ProductEdit extends React.Component{
 
     static propTypes={
         code: PropTypes.number.isRequired,
-
         row: PropTypes.object,
-
-        // row: PropTypes.object.isRequired,
         cbSave: PropTypes.func.isRequired,
         cbAdd: PropTypes.func.isRequired,
         cbChanged: PropTypes.func.isRequired,
         cbCancel: PropTypes.func.isRequired,
-        // isChanged: PropTypes.bool.isRequired
         isAdd: PropTypes.bool
     }
 
     state={
-        // code: this.props.row.code,
-        // name: this.props.row.name,
-        // price: this.props.row.price,
-        // url: this.props.row.url,
-        // quant: this.props.row.quant,
+
 
         code: this.props.code,
         name: (this.props.row)?this.props.row.name:"",
@@ -129,7 +121,7 @@ class ProductEdit extends React.Component{
             this.setState({nameNotValid: false}, this.validAll)
         }
 
-        if ((this.state.price === "")|| (!(/^(0|[1-9]\d*)([.,]\d+)?/.test(parseFloat(this.state.price))))){
+        if ((this.state.price === "")|| (!(/^(0|[1-9]\d*)([.,]\d+)?/.test(Number(this.state.price))))){
             this.setState({priceNotValid: true}, this.validAll)
         } else{
             this.setState({priceNotValid: false}, this.validAll)
@@ -141,11 +133,10 @@ class ProductEdit extends React.Component{
             this.setState({urlNotValid: false}, this.validAll)
         }
 
-        if ((this.state.quant === "") || (!(/(?<![-.,])\b[0-9]+\b(?!\.[0-9])/.test(parseFloat(this.state.quant))))){
+        if ((this.state.quant === "") || (!(/(?<![-.,])\b[0-9]+\b(?!\.[0-9])/.test(Number(this.state.quant))))){
             this.setState({quantNotValid: true}, this.validAll)
         } else{
             this.setState({quantNotValid: false}, this.validAll)
-            console.log((/(?<![-.,])\b[0-9]+\b(?!\.[0-9])/.test(parseFloat(this.state.quant))))
         }
         
 
@@ -241,6 +232,11 @@ class ProductEdit extends React.Component{
     render(){
         return(
             <div className="ProductEdit">
+                {
+                    (this.state.isAdd)
+                        ?<h2>Add new Product</h2>
+                        :<h2>Edit existing Product</h2>
+                }
                 <label>ID{this.state.code}</label>
                 <div>
                     <label>Name<input type="text"  value={this.state.name} name="name" onChange={this.cbChanged} onBlur={this.validate} autoFocus={this.state.isAdd}/></label>

@@ -136,7 +136,12 @@ class ProductsGrid extends React.Component{
                     {goodsCode}
                 </tbody>
             </table>
-            <input type='button' value='New product' onClick={this.add}/>
+            {
+                (!this.state.isEdit)
+                ?<input type='button' value='New product' onClick={this.add}/>
+                :null
+            }
+
 
 {/*----------------------- ПРОСМОТР КАРТОЧКИ -----------------------*/}            
             {
