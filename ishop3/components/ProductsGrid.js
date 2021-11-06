@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-
 import "./ProductsGrid.css";
 
 import ProductRow from "./ProductRow";
 import ProductEdit from "./ProductEdit";
 import ProductCard from "./ProductCard";
-
 
 class ProductsGrid extends React.Component{
     static propTypes={
