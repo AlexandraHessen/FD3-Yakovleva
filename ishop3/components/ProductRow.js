@@ -13,6 +13,8 @@ class ProductRow extends React.Component{
         cbShowCard: PropTypes.func,
         cbEdit: PropTypes.func,
         cbDelete: PropTypes.func,
+        isChanged: PropTypes.bool,
+        isEdit: PropTypes.bool,
     }
 
     cbShowCard=(EO)=>{
@@ -36,11 +38,11 @@ class ProductRow extends React.Component{
             <td className='InfoGoods'>{this.props.row.url}</td>
             <td className='InfoGoods'>{this.props.row.quant}</td>
             <td className='InfoGoods'>
-                <input type='button' value='Edit' className='EditButton' onClick={this.cbEdit}/>
+                <input type='button' value='Edit' className='EditButton' onClick={this.cbEdit} disabled={this.props.isChanged}/>
             </td>
             <td className='InfoGoods'>
-                <input type='button' value='Delete' className='DelButton' onClick={this.cbDelete}/>
-            </td>
+                <input type='button' value='Delete' className='DelButton' onClick={this.cbDelete} disabled={this.props.isChanged||this.props.isEdit}/>
+        </td>
         </tr>
     }
 }

@@ -18,8 +18,8 @@ class ProductsGrid extends React.Component{
         cardMode: 0,  // 0 - ничего не выводим, 1 - просмотр карточки товара, 2 - редактирование и создание товара
         isEdit: false, // = true когда карточка  в режиме редактирования
         isDelete: false,
-        isValid: true,
-        isChanged: false, //проверяем были ли внесены какие-либо изменения в форму, чтобы блокировать действия 
+        isValid: true, 
+        isChanged: false, //проверяем были ли внесены какие-либо изменения в форму, чтобы блокировать действия; когда = true, buttons disabled= true
         isAdd: false, //проверяем когда добавляем товар чтобы рендерить в компоненте соответствующие кнопки и текст для Add
     }
 
@@ -94,12 +94,17 @@ class ProductsGrid extends React.Component{
     }
 
     render(){
+// ----------------------- ТАБЛИЦА ТОВАРОВ -----------------------//   
         var goodsCode=this.state.goods.map( v=>
-            <ProductRow key={v.code} row={v} code={v.code} 
-            selectedProductCode={this.state.selectedProductCode}
-            cbShowCard={this.cbShowCard}
-            cbEdit={this.cbEdit}
-            cbDelete={this.cbDelete}
+            <ProductRow key={v.code} 
+                        row={v} 
+                        code={v.code} 
+                        selectedProductCode={this.state.selectedProductCode}
+                        cbShowCard={this.cbShowCard}
+                        cbEdit={this.cbEdit}
+                        cbDelete={this.cbDelete}
+                        isChanged={this.state.isChanged}
+                        isEdit={this.state.isEdit}
             />
         );
 
@@ -121,7 +126,7 @@ class ProductsGrid extends React.Component{
                     {goodsCode}
                 </tbody>
             </table>
-            <input type='button' value='New product' onClick={this.add}/>
+            <input type='button' value='New product' onClick={this.add} disabled={this.state.isChanged||this.state.isEdit}/>
 
 {/*----------------------- ПРОСМОТР КАРТОЧКИ -----------------------*/}            
             {
