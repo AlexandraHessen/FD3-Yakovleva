@@ -1,0 +1,10 @@
+.ProductsGrid{
+    border: 1px solid blueviolet;
+    border-collapse: collapse;
+}
+
+.ProductsGrid .Header{
+    border: 1px solid blueviolet;
+    color: blueviolet;
+    padding: 0.5em;
+}
