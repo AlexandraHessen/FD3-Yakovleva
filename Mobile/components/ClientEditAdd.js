@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import "./ProductEdit.css";
+import "./ClientEditAdd.css";
 
-class ProductEdit extends React.Component{
+class ClientEditAdd extends React.Component{
 
     static propTypes={
         code: PropTypes.number.isRequired,
@@ -16,10 +16,10 @@ class ProductEdit extends React.Component{
 
     state={
         code: this.props.code,
+        surname: (this.props.row)?this.props.row.surname:"",
         name: (this.props.row)?this.props.row.name:"",
-        price: (this.props.row)?this.props.row.price:"",
-        url: (this.props.row)?this.props.row.url:"",
-        quant: (this.props.row)?this.props.row.quant:"",
+        patronymic: (this.props.row)?this.props.row.patronymic:"",
+        balance: (this.props.row)?this.props.row.balance:"",
 
         nameNotValid: false,    // когда ошибка = true отображается  <span> с ошибкой  (логич выражение) && JSX
         priceNotValid: false,
@@ -49,7 +49,7 @@ class ProductEdit extends React.Component{
             this.setState({nameNotValid: false}, this.validAll)
         }
 
-        if ((this.state.price === "")|| (!(/^(0|[1-9]\d*)([.,]\d+)?/.test(Number(this.state.price))))){
+        if ((this.state.price === "")){
             this.setState({priceNotValid: true}, this.validAll)
         } else{
             this.setState({priceNotValid: false}, this.validAll)
@@ -61,7 +61,7 @@ class ProductEdit extends React.Component{
             this.setState({urlNotValid: false}, this.validAll)
         }
 
-        if ((this.state.quant === "") || (!(/(?<![-.,])\b[0-9]+\b(?!\.[0-9])/.test(Number(this.state.quant))))){
+        if ((this.state.quant === "")){
             this.setState({quantNotValid: true}, this.validAll)
         } else{
             this.setState({quantNotValid: false}, this.validAll)
@@ -119,7 +119,7 @@ class ProductEdit extends React.Component{
 
     render(){
         return(
-            <div className="ProductEdit">
+            <div className="ClientEditAdd">
                 {
                     (this.state.isAdd)
                         ?<h2>Add new Product</h2>
@@ -128,19 +128,19 @@ class ProductEdit extends React.Component{
 
                 <label>ID{this.state.code}</label>
                 <div>
-                    <label>Name<input type="text"  value={this.state.name} name="name" onChange={this.cbChanged} onBlur={this.validate} autoFocus={this.state.isAdd}/></label>
+                    <label>Фамилия:<input type="text"  value={this.state.surname} name="surname" onChange={this.cbChanged} onBlur={this.validate} autoFocus={this.state.isAdd}/></label>
                     {(this.state.nameNotValid)&&<span className="Error">{this.state.nameError}</span>} 
                 </div>
                 <div>
-                    <label>Price<input type="text" value={this.state.price} name="price" onChange={this.cbChanged} onBlur={this.validate}/></label>
+                    <label>Имя:<input type="text" value={this.state.name} name="name" onChange={this.cbChanged} onBlur={this.validate}/></label>
                     {(this.state.priceNotValid)&&<span className="Error">{this.state.priceError}</span>} 
                 </div>
                 <div>
-                    <label>URL<input type="text" value={this.state.url} name="url" onChange={this.cbChanged} onBlur={this.validate}/></label>
+                    <label>Отчество:<input type="text" value={this.state.patronymic} name="patronymic" onChange={this.cbChanged} onBlur={this.validate}/></label>
                     {(this.state.urlNotValid)&&<span className="Error">{this.state.urlError}</span>} 
                 </div>
                 <div>
-                    <label>Quantity<input type="text" value={this.state.quant} name="quant" onChange={this.cbChanged} onBlur={this.validate}/></label>
+                    <label>Баланс:<input type="text" value={this.state.balance} name="balance" onChange={this.cbChanged} onBlur={this.validate}/></label>
                     {(this.state.quantNotValid)&&<span className="Error">{this.state.quantError}</span>} 
                 </div>
 
@@ -156,4 +156,4 @@ class ProductEdit extends React.Component{
         )
     }
 }
-export default ProductEdit
+export default ClientEditAdd

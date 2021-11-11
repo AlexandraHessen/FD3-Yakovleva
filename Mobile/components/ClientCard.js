@@ -10,10 +10,11 @@ class ClientCard extends React.Component{
     render(){
         return(
             <div className="ClientCard">
-                <h2>{this.props.row.name}</h2>
-                <img src={this.props.row.url} className="productImg"/>
-                <div>Price: {this.props.row.price}</div>
-                <div>Quantity: {this.props.row.quant}</div>
+                <div>Фамилия: {this.props.row.surname}</div>
+                <div>Имя: {this.props.row.name}</div>
+                <div>Отчество: {this.props.row.patronymic}</div>
+                <div>Баланс: {this.props.row.balance}</div>
+                <div>Статус: {this.props.row.balance}</div>
             </div>
         )
     }

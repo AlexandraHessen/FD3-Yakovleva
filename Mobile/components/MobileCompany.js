@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import "./MobileCompany.css";
 
 import MobileClient from "./MobileClient";
-import ProductEdit from "./ProductEdit";
+import ClientEditAdd from "./ClientEditAdd";
 import ClientCard from "./ClientCard";
 
 class MobileCompany extends React.PureComponent{
@@ -156,7 +156,7 @@ class MobileCompany extends React.PureComponent{
 {/*----------------------- РЕДАКТИРОВАНИЕ И СОЗДАНИЕ -----------------------*/}
             {
                 (this.state.cardMode=="2") &&
-                <ProductEdit key={this.state.selectedProductCode} 
+                <ClientEditAdd key={this.state.selectedProductCode} 
                             code={this.state.selectedProductCode} 
                             row={selectedClientRow} 
                             cbSave={this.cbSave}

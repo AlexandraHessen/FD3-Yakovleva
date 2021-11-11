@@ -1,4 +1,4 @@
-.ProductEdit input:not([type="button"]){
+.ClientEditAdd input:not([type="button"]){
     margin: 0 1em;
 }
 
