@@ -43,25 +43,25 @@ class ClientEditAdd extends React.Component{
 
     validate = (EO) =>{
 // ----------------------- ВАЛИДАЦИЯ ВСЕХ ПОЛЕЙ ПРИ УХОДЕ С 1 ПОЛЯ-----------------------//
-        if (this.state.name === ""){
+        if (this.newSurnameRef.value === ""){
             this.setState({nameNotValid: true}, this.validAll)
         } else{
             this.setState({nameNotValid: false}, this.validAll)
         }
 
-        if ((this.state.price === "")){
+        if ((this.newNameRef.value === "")){
             this.setState({priceNotValid: true}, this.validAll)
         } else{
             this.setState({priceNotValid: false}, this.validAll)
         }
 
-        if (this.state.url === ""){
+        if (this.newPatronymicRef.value === ""){
             this.setState({urlNotValid: true}, this.validAll)
         } else{
             this.setState({urlNotValid: false}, this.validAll)
         }
 
-        if ((this.state.quant === "")){
+        if ((this.newBalanceRef.value === "")){
             this.setState({quantNotValid: true}, this.validAll)
         } else{
             this.setState({quantNotValid: false}, this.validAll)
@@ -88,15 +88,94 @@ class ClientEditAdd extends React.Component{
         }
     }
 
+    // validAll=()=>{
+    //     if (this.newSurnameRef.value||
+    //         this.newNameRef.value||
+    //         this.newPatronymicRef.value||
+    //         this.newBalanceRef.value)
+    //             {this.setState({notValidForm: true})
+    //             this.props.cbChanged(true)
+    //     } else {
+    //             this.setState({notValidForm: false})
+    //     }
+    // }
+
+    // cbSave=()=>{
+    //     this.props.cbSave({
+    //         ...this.props.row,  //взять исходный товара и заменить в нем указанные ниже значения (name, patronymic) 
+    //                             // а все остальное, если есть что-то еще оставить неизменным
+    //                             // т.к. code уникален и не меняется при edit и есть уже в props его можно отдельно не передавать
+    //         surname: this.state.surname,
+    //         name: this.state.name,
+    //         patronymic: this.state.patronymic,
+    //         balance: this.state.balance,
+    //     })
+    //     this.props.cbChanged(false) 
+    // }
+
+    // cbAdd=()=>{
+    //     this.props.cbAdd({
+    //         code: this.props.code,
+    //         surname: this.state.surname,
+    //         name: this.state.name,
+    //         patronymic: this.state.patronymic,
+    //         balance: this.state.balance,
+    //     })
+    //     this.props.cbChanged(false) 
+    // }
+
+    
+
+    cbCancel=()=>{
+        this.props.cbCancel()
+        this.props.cbChanged(false) 
+    }
+
+    newSurnameRef = null;
+    newNameRef = null;
+    newPatronymicRef = null;
+    newBalanceRef = null;
+
+    setSurnameRef=(ref)=>{
+        this.newSurnameRef=ref
+    }
+    setNameRef=(ref)=>{
+        this.newNameRef=ref
+    }
+    setPatronymicRef=(ref)=>{
+        this.newPatronymicRef=ref
+    }
+    setBalanceRef=(ref)=>{
+        this.newBalanceRef=ref
+    }
+
+
+    // setNewText=()=>{
+    //     if(newSurnameRef){
+    //         let newText=this.newSurnameRef.value;
+    //         this.setState({question:newText});
+    //     }
+    //     this.props.cbSave({
+    //         ...this.props.row,  //взять исходный товара и заменить в нем указанные ниже значения (name, patronymic) 
+    //                             // а все остальное, если есть что-то еще оставить неизменным
+    //                             // т.к. code уникален и не меняется при edit и есть уже в props его можно отдельно не передавать
+    //         surname: this.state.this.newSurnameRef.value,
+    //         name: this.state.name,
+    //         patronymic: this.state.patronymic,
+    //         balance: this.state.balance,
+    //     })
+
+    // }
+
     cbSave=()=>{
         this.props.cbSave({
-            ...this.props.row,  //взять исходный товара и заменить в нем указанные ниже значения (name, price) 
+            ...this.props.row,  //взять исходный товара и заменить в нем указанные ниже значения (name, patronymic) 
                                 // а все остальное, если есть что-то еще оставить неизменным
                                 // т.к. code уникален и не меняется при edit и есть уже в props его можно отдельно не передавать
-            name: this.state.name,
-            price: this.state.price,
-            url: this.state.url,
-            quant: this.state.quant,
+            surname: (this.newSurnameRef)?this.newSurnameRef.value:'',
+            name: (this.newNameRef)?this.newNameRef.value:'',
+            patronymic: (this.newPatronymicRef)?this.newPatronymicRef.value:'',
+            balance: (this.newBalanceRef)?this.newBalanceRef.value:'',
         })
         this.props.cbChanged(false) 
     }
@@ -104,16 +183,11 @@ class ClientEditAdd extends React.Component{
     cbAdd=()=>{
         this.props.cbAdd({
             code: this.props.code,
-            name: this.state.name,
-            price: this.state.price,
-            url: this.state.url,
-            quant: this.state.quant,
+            surname: (this.newSurnameRef)?this.newSurnameRef.value:'',
+            name: (this.newNameRef)?this.newNameRef.value:'',
+            patronymic: (this.newPatronymicRef)?this.newPatronymicRef.value:'',
+            balance: (this.newBalanceRef)?this.newBalanceRef.value:'',
         })
-        this.props.cbChanged(false) 
-    }
-
-    cbCancel=()=>{
-        this.props.cbCancel()
         this.props.cbChanged(false) 
     }
 
@@ -127,6 +201,32 @@ class ClientEditAdd extends React.Component{
                 }
 
                 <label>ID{this.state.code}</label>
+                <div>
+                    <label>Фамилия:<input type="text"  defaultValue={this.state.surname} ref={this.setSurnameRef} name="surname"  onBlur={this.validate} autoFocus={this.state.isAdd}/></label>
+                    {(this.state.nameNotValid)&&<span className="Error">{this.state.nameError}</span>} 
+                </div>
+                <div>
+                    <label>Имя:<input type="text" defaultValue={this.state.name} ref={this.setNameRef} name="name" onBlur={this.validate}/></label>
+                    {(this.state.priceNotValid)&&<span className="Error">{this.state.priceError}</span>} 
+                </div>
+                <div>
+                    <label>Отчество:<input type="text" defaultValue={this.state.patronymic} ref={this.setPatronymicRef} name="patronymic" onBlur={this.validate}/></label>
+                    {(this.state.urlNotValid)&&<span className="Error">{this.state.urlError}</span>} 
+                </div>
+                <div>
+                    <label>Баланс:<input type="text" defaultValue={this.state.balance} ref={this.setBalanceRef} name="balance" onBlur={this.validate}/></label>
+                    {(this.state.quantNotValid)&&<span className="Error">{this.state.quantError}</span>} 
+                </div>
+
+                {
+                    (this.state.isAdd)
+                    // onClick={this.cbAdd}
+                    // onClick={this.cbSave}
+                        ?<input type="button" value="Add" onClick={this.cbAdd} disabled={this.state.notValidForm}/>
+                        :<input type="button" value="Save" onClick={this.cbSave} disabled={this.state.notValidForm}/>
+                }
+
+{/* <label>ID{this.state.code}</label>
                 <div>
                     <label>Фамилия:<input type="text"  value={this.state.surname} name="surname" onChange={this.cbChanged} onBlur={this.validate} autoFocus={this.state.isAdd}/></label>
                     {(this.state.nameNotValid)&&<span className="Error">{this.state.nameError}</span>} 
@@ -148,7 +248,7 @@ class ClientEditAdd extends React.Component{
                     (this.state.isAdd)
                         ?<input type="button" value="Add" onClick={this.cbAdd} disabled={this.state.notValidForm}/>
                         :<input type="button" value="Save" onClick={this.cbSave} disabled={this.state.notValidForm}/>
-                }
+                } */}
 
                 <input type="button" value="Cancel" onClick={this.cbCancel}/>
             </div>

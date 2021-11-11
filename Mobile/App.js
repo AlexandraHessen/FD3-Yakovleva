@@ -31,7 +31,7 @@ ReactDOM.render(
 
 
 // ReactDOM.render(
-//     React.createElement(ProductsGrid, {goods: goodsArr}),
+//     React.createElement(ProductsGrid, {clients: goodsArr}),
 //     document.getElementById('container')
 // );
 

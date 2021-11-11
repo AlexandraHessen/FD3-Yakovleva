@@ -97,9 +97,9 @@ export default MobileClient
 //         return DOM.tr({className: ((this.props.selectedProductCode!==this.props.code)?'ProductRow':'ProductRow ProductRowSelect'), onClick: this.rowSelected,},
 //         // если строка выделена меняем class с белым фоном на class с цветным
 //         DOM.td({className: 'InfoGoods'}, this.props.row.name),
-//         DOM.td({className: 'InfoGoods'}, this.props.row.price),
+//         DOM.td({className: 'InfoGoods'}, this.props.row.patronymic),
 //         DOM.td({className: 'InfoGoods'}, DOM.img ({src: this.props.row.url, className: 'ImgGoods'})),
-//         DOM.td({className: 'InfoGoods'}, this.props.row.quant),
+//         DOM.td({className: 'InfoGoods'}, this.props.row.balance),
 //         DOM.td({className: 'InfoGoods'}, 
 //             DOM.input({type: 'button', value: 'Delete', className: 'DelButton', onClick: this.rowDelete}))
 //         )

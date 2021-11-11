@@ -70,16 +70,16 @@ class MobileCompany extends React.PureComponent{
     }
 
     cbSave=(editRow)=>{
-        let editGoods=this.state.goods.map(row=>(row.code==editRow.code)?editRow:row)
+        let editGoods=this.state.clients.map(row=>(row.code==editRow.code)?editRow:row)
         this.setState({
             cardMode: 0, 
-            goods: editGoods,
+            clients: editGoods,
             isEdit: false
         })
     }
 
     cbAdd=(newRow)=>{
-        this.state.goods.push(newRow)
+        this.state.clients.push(newRow)
         this.setState({
             cardMode: 0, 
         })
@@ -88,11 +88,11 @@ class MobileCompany extends React.PureComponent{
     cbDelete=(code)=>{
         if (!this.state.isChanged && !this.state.isEdit){
             if(confirm('Вы действительно хотите удалить товар?')){
-                let result=this.state.goods;
+                let result=this.state.clients;
                 result=result.filter(s=>(s.code!==code));
                 this.setState({
                     cardMode: 0,
-                    goods: result,
+                    clients: result,
                     isDelete: true
                 })
             } 
