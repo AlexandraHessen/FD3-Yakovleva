@@ -33,15 +33,16 @@ class MobileClient extends React.Component{
 
     render(){
         return <tr className={(this.props.selectedProductCode!==this.props.code)?'ProductRow':'ProductRow ProductRowSelect'} onClick={this.cbShowCard}>
+            <td className='InfoGoods'>{this.props.row.surname}</td>
             <td className='InfoGoods'>{this.props.row.name}</td>
-            <td className='InfoGoods'>{this.props.row.price}</td>
-            <td className='InfoGoods'>{this.props.row.url}</td>
-            <td className='InfoGoods'>{this.props.row.quant}</td>
+            <td className='InfoGoods'>{this.props.row.patronymic}</td>
+            <td className='InfoGoods'>{this.props.row.balance}</td>
+            <td className='InfoGoods'>{this.props.row.balance}</td>
             <td className='InfoGoods'>
-                <input type='button' value='Edit' className='EditButton' onClick={this.cbEdit} disabled={this.props.isChanged}/>
+                <input type='button' value='Редактировать' className='EditButton' onClick={this.cbEdit} disabled={this.props.isChanged}/>
             </td>
             <td className='InfoGoods'>
-                <input type='button' value='Delete' className='DelButton' onClick={this.cbDelete} disabled={this.props.isChanged||this.props.isEdit}/>
+                <input type='button' value='Удалить' className='DelButton' onClick={this.cbDelete} disabled={this.props.isChanged||this.props.isEdit}/>
         </td>
         </tr>
     }

@@ -5,18 +5,12 @@ import "./MobileCompany.css";
 
 import MobileClient from "./MobileClient";
 import ProductEdit from "./ProductEdit";
-import ProductCard from "./ProductCard";
+import ClientCard from "./ClientCard";
 
 class MobileCompany extends React.PureComponent{
     static propTypes = {
         companyName: PropTypes.string.isRequired,
-        clients:PropTypes.arrayOf(
-          PropTypes.shape({
-            code: PropTypes.number.isRequired,
-            fio: PropTypes.string.isRequired,
-            balance: PropTypes.number.isRequired,
-          })
-        ),
+        clients:PropTypes.array.isRequired,
       };
 
     state ={
@@ -33,11 +27,11 @@ class MobileCompany extends React.PureComponent{
     }
 
     setName1 = () => {
-        this.setState({name:'МТС'});
+        this.setState({companyName:'Velcom'});
       };
     
       setName2 = () => {
-        this.setState({name:'Velcom'});
+        this.setState({companyName:'МТС'});
       };
 
     cbChanged=(changed)=>{
@@ -66,7 +60,7 @@ class MobileCompany extends React.PureComponent{
 
     add=()=>{
         if (!this.state.isChanged && !this.state.isEdit){
-            let code=this.state.goods.length
+            let code=this.state.clients.length
             this.setState({
                 selectedProductCode: ++code,
                 cardMode: 2, 
@@ -112,8 +106,9 @@ class MobileCompany extends React.PureComponent{
 
     render(){
 // ----------------------- ТАБЛИЦА КЛИЕНТОВ -----------------------//   
-        var clientsCode=this.state.clients.map( client=>
-            <MobileClient key={client.code} 
+        var clientsCode=this.state.clients.map( client=>{
+            let FIO={surname:client.surname, name:client.name, patronymic:client.patronymic};
+            return  <MobileClient key={client.code} 
                         row={client} 
                         code={client.code} 
                         selectedProductCode={this.state.selectedProductCode}
@@ -123,32 +118,38 @@ class MobileCompany extends React.PureComponent{
                         isChanged={this.state.isChanged}
                         isEdit={this.state.isEdit}
             />
+        }
+
         );
 
 // СТРОКА ДЛЯ РАБОТЫ
-        let selectedProductRow=this.state.clients.find((v, i)=>v.code==this.state.selectedProductCode)
+        let selectedClientRow=this.state.clients.find((v, i)=>v.code==this.state.selectedProductCode)
 
         return (
         <div>
+            <input type="button" value="Velcom" onClick={this.setName1} />
+            <input type="button" value="МТС" onClick={this.setName2} />
+            <div >Компания: {this.state.companyName}</div>
             <table className='ProductsGrid'>
                 <tbody>
                     <tr> 
-                        <th className='Header'>Name</th>
-                        <th className='Header'>Price</th>
-                        <th className='Header'>URL</th>
-                        <th className='Header'>Quantity</th>
-                        <th className='Header'>Edit</th>
-                        <th className='Header'>Delete</th>
+                        <th className='Header'>Фамилия</th>
+                        <th className='Header'>Имя</th>
+                        <th className='Header'>Отчество</th>
+                        <th className='Header'>Баланс</th>
+                        <th className='Header'>Статус</th>
+                        <th className='Header'>Редактировать</th>
+                        <th className='Header'>Удалить</th>
                     </tr>
                     {clientsCode}
                 </tbody>
             </table>
-            <input type='button' value='New product' onClick={this.add} disabled={this.state.isChanged||this.state.isEdit}/>
+            <input type='button' value='Добавить клиента' onClick={this.add} disabled={this.state.isChanged||this.state.isEdit}/>
 
-{/*----------------------- ПРОСМОТР КАРТОЧКИ -----------------------*/}            
+{/*----------------------- ПРОСМОТР КАРТОЧКИ КЛИЕНТА -----------------------*/}            
             {
                 (this.state.cardMode=="1") &&
-                <ProductCard row={selectedProductRow} 
+                <ClientCard row={selectedClientRow} 
                 />
             }
 
@@ -157,7 +158,7 @@ class MobileCompany extends React.PureComponent{
                 (this.state.cardMode=="2") &&
                 <ProductEdit key={this.state.selectedProductCode} 
                             code={this.state.selectedProductCode} 
-                            row={selectedProductRow} 
+                            row={selectedClientRow} 
                             cbSave={this.cbSave}
                             cbAdd={this.cbAdd}
                             cbChanged={this.cbChanged}
