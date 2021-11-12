@@ -2,16 +2,17 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import "./ClientEditAdd.css";
+import {mobileEvents} from './events';
 
 class ClientEditAdd extends React.Component{
 
     static propTypes={
         code: PropTypes.number.isRequired,
         row: PropTypes.object,
-        cbSave: PropTypes.func.isRequired,
-        cbAdd: PropTypes.func.isRequired,
-        cbChanged: PropTypes.func.isRequired,
-        cbCancel: PropTypes.func.isRequired,
+        // cbSave: PropTypes.func.isRequired,
+        // cbAdd: PropTypes.func.isRequired,
+        // cbChanged: PropTypes.func.isRequired,
+        // cbCancel: PropTypes.func.isRequired,
     }
 
     state={
@@ -35,10 +36,16 @@ class ClientEditAdd extends React.Component{
         isAdd: (!this.props.row)?true:null
     }
 
+    // cbChanged = (EO) => {
+    //     this.setState({[EO.target.name]: EO.target.value,
+    //         })
+    //         this.props.cbChanged(true)
+    // }
+
     cbChanged = (EO) => {
         this.setState({[EO.target.name]: EO.target.value,
             })
-            this.props.cbChanged(true)
+            mobileEvents.emit('EvcbChanged', true)
     }
 
     validate = (EO) =>{
@@ -126,9 +133,15 @@ class ClientEditAdd extends React.Component{
 
     
 
+    // cbCancel=()=>{
+    //     this.props.cbCancel()
+    //     this.props.cbChanged(false) 
+    // }
+
     cbCancel=()=>{
-        this.props.cbCancel()
-        this.props.cbChanged(false) 
+        mobileEvents.emit('EvcbCancel', false)
+        // this.props.cbCancel()
+        // this.props.cbChanged(false) 
     }
 
     newSurnameRef = null;
@@ -167,8 +180,21 @@ class ClientEditAdd extends React.Component{
 
     // }
 
+    // cbSave=()=>{
+    //     this.props.cbSave({
+    //         ...this.props.row,  //взять исходный товара и заменить в нем указанные ниже значения (name, patronymic) 
+    //                             // а все остальное, если есть что-то еще оставить неизменным
+    //                             // т.к. code уникален и не меняется при edit и есть уже в props его можно отдельно не передавать
+    //         surname: (this.newSurnameRef)?this.newSurnameRef.value:'',
+    //         name: (this.newNameRef)?this.newNameRef.value:'',
+    //         patronymic: (this.newPatronymicRef)?this.newPatronymicRef.value:'',
+    //         balance: (this.newBalanceRef)?this.newBalanceRef.value:'',
+    //     })
+    //     this.props.cbChanged(false) 
+    // }
+
     cbSave=()=>{
-        this.props.cbSave({
+        mobileEvents.emit('EvcbSave', {
             ...this.props.row,  //взять исходный товара и заменить в нем указанные ниже значения (name, patronymic) 
                                 // а все остальное, если есть что-то еще оставить неизменным
                                 // т.к. code уникален и не меняется при edit и есть уже в props его можно отдельно не передавать
@@ -177,27 +203,42 @@ class ClientEditAdd extends React.Component{
             patronymic: (this.newPatronymicRef)?this.newPatronymicRef.value:'',
             balance: (this.newBalanceRef)?this.newBalanceRef.value:'',
         })
-        this.props.cbChanged(false) 
+        mobileEvents.emit('EvcbChanged', false)
+        // this.props.cbChanged(false) 
     }
 
+    // cbAdd=()=>{
+        
+    //     this.props.cbAdd({
+    //         code: this.props.code,
+    //         surname: (this.newSurnameRef)?this.newSurnameRef.value:'',
+    //         name: (this.newNameRef)?this.newNameRef.value:'',
+    //         patronymic: (this.newPatronymicRef)?this.newPatronymicRef.value:'',
+    //         balance: (this.newBalanceRef)?this.newBalanceRef.value:'',
+    //     })
+    //     mobileEvents.emit('EvcbChanged', false)
+    //     // this.props.cbChanged(false) 
+    // }
     cbAdd=()=>{
-        this.props.cbAdd({
+        mobileEvents.emit('EvcbAdd', {
             code: this.props.code,
             surname: (this.newSurnameRef)?this.newSurnameRef.value:'',
             name: (this.newNameRef)?this.newNameRef.value:'',
             patronymic: (this.newPatronymicRef)?this.newPatronymicRef.value:'',
             balance: (this.newBalanceRef)?this.newBalanceRef.value:'',
         })
-        this.props.cbChanged(false) 
+        mobileEvents.emit('EvcbChanged', false)
+        // this.props.cbChanged(false) 
     }
+
 
     render(){
         return(
             <div className="ClientEditAdd">
                 {
                     (this.state.isAdd)
-                        ?<h2>Add new Product</h2>
-                        :<h2>Edit existing Product</h2>
+                        ?<h2>Add new Client</h2>
+                        :<h2>Edit existing Client</h2>
                 }
 
                 <label>ID{this.state.code}</label>

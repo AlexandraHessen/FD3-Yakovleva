@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from 'prop-types';
 import DOM from 'react-dom-factories';
 
+import {mobileEvents} from './events';
+
 import "./MobileClient.css"
 
 class MobileClient extends React.Component{
@@ -9,26 +11,40 @@ class MobileClient extends React.Component{
         row: PropTypes.object.isRequired,
         code: PropTypes.number.isRequired,
         selectedProductCode: PropTypes.number,
-        cbSelected: PropTypes.func,
-        cbShowCard: PropTypes.func,
-        cbEdit: PropTypes.func,
-        cbDelete: PropTypes.func,
+        // cbSelected: PropTypes.func,
+        // cbShowCard: PropTypes.func,
+        // cbEdit: PropTypes.func,
+        // cbDelete: PropTypes.func,
         isChanged: PropTypes.bool,
         isEdit: PropTypes.bool,
     }
 
+    // cbShowCard=(EO)=>{
+    //     this.props.cbShowCard(this.props.code);
+    // }
+
     cbShowCard=(EO)=>{
-        this.props.cbShowCard(this.props.code);
+        mobileEvents.emit('EvShowCard', this.props.code)
     }
+
+    // cbEdit=(EO)=>{
+    //     EO.stopPropagation();
+    //     this.props.cbEdit(this.props.code)
+    // }
 
     cbEdit=(EO)=>{
         EO.stopPropagation();
-        this.props.cbEdit(this.props.code)
+        mobileEvents.emit('EvEdit', this.props.code)
     }
+
+    // cbDelete=(EO)=>{
+    //     EO.stopPropagation();
+    //     this.props.cbDelete(this.props.code)
+    // }
 
     cbDelete=(EO)=>{
         EO.stopPropagation();
-        this.props.cbDelete(this.props.code)
+        mobileEvents.emit('EvDelete', this.props.code)
     }
 
     render(){
@@ -49,60 +65,3 @@ class MobileClient extends React.Component{
 }
 
 export default MobileClient
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var ProductRow=React.createClass({
-//     displayName: 'ProductRow',
-
-//     propTypes: {
-//         row: React.PropTypes.object.isRequired,
-//         code: React.PropTypes.number.isRequired,
-//         selectedProductCode: React.PropTypes.number,
-//         cbSelected: React.PropTypes.func,
-//         cbDelete: React.PropTypes.func,
-//     },
-
-//     rowSelected: function(EO){
-//         this.props.cbSelected(this.props.code);
-//     },
-
-//     rowDelete: function(){
-//         confirm('Вы действительно хотите удалить товар?')
-//         ?this.props.cbDelete(this.props.code)
-//         :null
-//     },
-
-//     render: function(){
-//         return DOM.tr({className: ((this.props.selectedProductCode!==this.props.code)?'ProductRow':'ProductRow ProductRowSelect'), onClick: this.rowSelected,},
-//         // если строка выделена меняем class с белым фоном на class с цветным
-//         DOM.td({className: 'InfoGoods'}, this.props.row.name),
-//         DOM.td({className: 'InfoGoods'}, this.props.row.patronymic),
-//         DOM.td({className: 'InfoGoods'}, DOM.img ({src: this.props.row.url, className: 'ImgGoods'})),
-//         DOM.td({className: 'InfoGoods'}, this.props.row.balance),
-//         DOM.td({className: 'InfoGoods'}, 
-//             DOM.input({type: 'button', value: 'Delete', className: 'DelButton', onClick: this.rowDelete}))
-//         )
-//     },
-// });
-

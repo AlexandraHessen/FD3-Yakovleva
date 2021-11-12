@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import "./MobileCompany.css";
+import {mobileEvents} from './events';
 
 import MobileClient from "./MobileClient";
 import ClientEditAdd from "./ClientEditAdd";
@@ -36,6 +37,29 @@ class MobileCompany extends React.PureComponent{
 
     cbChanged=(changed)=>{
         this.setState({isChanged: changed})
+    }
+
+    componentDidMount =()=>{
+        mobileEvents.addListener('EvShowCard', this.cbShowCard);
+        mobileEvents.addListener('EvEdit', this.cbEdit);
+        mobileEvents.addListener('EvDelete', this.cbDelete);
+        mobileEvents.addListener('EvcbChanged', this.cbChanged);
+        mobileEvents.addListener('EvcbCancel', this.cbCancel);
+        mobileEvents.addListener('EvcbCancel', this.cbChanged);
+        mobileEvents.addListener('EvcbSave', this.cbSave);
+        mobileEvents.addListener('EvcbAdd', this.cbAdd);
+    }
+
+    componentWillUnmount =()=>{
+        mobileEvents.removeListener('EvShowCard', this.cbShowCard);
+        mobileEvents.removeListener('EvEdit', this.cbEdit);
+        mobileEvents.removeListener('EvDelete', this.cbDelete);
+        mobileEvents.removeListener('EvcbChanged', this.cbChanged);
+        mobileEvents.removeListener('EvcbCancel', this.cbCancel);
+        mobileEvents.removeListener('EvcbCancel', this.cbChanged);
+        mobileEvents.removeListener('EvcbSave', this.cbSave);
+        mobileEvents.removeListener('EvcbAdd', this.cbAdd);
+
     }
 
     cbShowCard =(code)=>{
