@@ -4,7 +4,7 @@
 }
 
 .ProductRow .InfoGoods{
-    border: 1px solid blueviolet;
+    border: 1px solid black;
 }
 
 .ProductRow .InfoGoods:last-child{
@@ -16,5 +16,13 @@
 }
 
 .ProductRowSelect{
-    background-color: rgb(181, 137, 221);
+    background-color: #ffff40;
+}
+
+.ProductRow .active{
+    background-color: #09fc09;
+}
+
+.ProductRow .blocked{
+    background-color: #ff6565;
 }

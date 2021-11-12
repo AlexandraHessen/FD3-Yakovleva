@@ -17,6 +17,7 @@ class MobileCompany extends React.PureComponent{
     state ={
         companyName: this.props.companyName,
         clients: this.props.clients,
+        filterClients: 0,
         // companyName: this.props.companyName.slice(),
         selectedProductCode: null,
         cardMode: 0,  // 0 - ничего не выводим, 1 - просмотр карточки товара, 2 - редактирование и создание товара
@@ -128,24 +129,227 @@ class MobileCompany extends React.PureComponent{
                         isEdit: false})
     }
 
+    filterClients=(how)=>{
+        console.log(how)
+        // let changed=false;
+        let newClients=[...this.state.clients]; // копия массива клиентов // ...  поверхностная копия (только массив элементов(ссылки на хэши)сами хэши не копировались)
+        newClients=newClients.filter((client, i)=>{
+            console.log(client.balance<0)
+           return client.balance<0
+        })
+        console.log(newClients)
+        // newClients.filter( (client,i) => {
+        //     if(client.balance<0){
+
+        //     }
+        //   if ( c.id==clientId && c.balance!=newBalance ) { // 1. находим изменненного клиенты 
+        //     let newClient={...c}; // 2. копируем объект изменненного клиенты 
+        //     newClient.balance=newBalance;// 3. заменяем баланс копии изменненного клиента на измененный баланс
+        //     newClients[i]=newClient;// 4. заменяем в массиве копии клиентов, клиента на нового такого клиента с измененным балансом
+        //     changed=true;
+        //   }
+        // } );
+        this.setState({clients: newClients});
+        console.log(newClients)
+        // if ( changed )
+        //   this.setState({clients:newClients});
+    }
+    allClients=()=>{
+        this.setState({filterClients: 0})
+        console.log(this.state.filterClients)
+    }
+    activeClients=()=>{
+        this.setState({filterClients: 1})
+    }
+    blockedClients=()=>{
+        this.setState({filterClients: 2})
+        console.log(this.state.filterClients)
+    }
+
     render(){
-// ----------------------- ТАБЛИЦА КЛИЕНТОВ -----------------------//   
-        var clientsCode=this.state.clients.map( client=>{
-            let FIO={surname:client.surname, name:client.name, patronymic:client.patronymic};
-            return  <MobileClient key={client.code} 
-                        row={client} 
-                        code={client.code} 
-                        selectedProductCode={this.state.selectedProductCode}
-                        cbShowCard={this.cbShowCard}
-                        cbEdit={this.cbEdit}
-                        cbDelete={this.cbDelete}
-                        isChanged={this.state.isChanged}
-                        isEdit={this.state.isEdit}
-            />
-        }
+        console.log(this.state.filterClients)
+        console.log(this.state.clients)
+// ----------------------- ТАБЛИЦА КЛИЕНТОВ -----------------------//  
+let newClients=[...this.state.clients];
+var clientsCode=newClients.filter((client, i)=>{
+if (this.state.filterClients === 0){
+return client
+}
+if(this.state.filterClients === 1&& client.balance >= 0){
+    // this.setState({clients[i].active="active"})
+    return client
+}
+if(this.state.filterClients === 2&& client.balance < 0){
+    // this.setState({clients[i].active="blocked"})
+    return client
+}
+}
 
-        );
 
+
+)
+clientsCode=clientsCode.map( client=>{
+    return  <MobileClient key={client.code} 
+                row={client} 
+                code={client.code} 
+                selectedProductCode={this.state.selectedProductCode}
+                cbShowCard={this.cbShowCard}
+                cbEdit={this.cbEdit}
+                cbDelete={this.cbDelete}
+                isChanged={this.state.isChanged}
+                isEdit={this.state.isEdit}
+    />
+}
+);
+            // var clientsCode=this.state.clients.map( client=>{
+            //     return  <MobileClient key={client.code} 
+            //                 row={client} 
+            //                 code={client.code} 
+            //                 selectedProductCode={this.state.selectedProductCode}
+            //                 cbShowCard={this.cbShowCard}
+            //                 cbEdit={this.cbEdit}
+            //                 cbDelete={this.cbDelete}
+            //                 isChanged={this.state.isChanged}
+            //                 isEdit={this.state.isEdit}
+            //     />
+            // }
+            // );
+// РАБОТАЕТ НО ЛОХОВСКОЙ
+    //         var clientsCode=this.state.clients.map( client=>{
+    //             if(this.state.filterClients === 0){
+    //                 return  <MobileClient key={client.code} 
+    //                 row={client} 
+    //                 code={client.code} 
+    //                 selectedProductCode={this.state.selectedProductCode}
+    //                 cbShowCard={this.cbShowCard}
+    //                 cbEdit={this.cbEdit}
+    //                 cbDelete={this.cbDelete}
+    //                 isChanged={this.state.isChanged}
+    //                 isEdit={this.state.isEdit}
+    //     />
+    //             } 
+    //                 else if(this.state.filterClients === 1&& client.balance >= 0){
+    //     return  (<MobileClient key={client.code} 
+    //         row={client} 
+    //         code={client.code} 
+    //         selectedProductCode={this.state.selectedProductCode}
+    //         cbShowCard={this.cbShowCard}
+    //         cbEdit={this.cbEdit}
+    //         cbDelete={this.cbDelete}
+    //         isChanged={this.state.isChanged}
+    //         isEdit={this.state.isEdit} />)
+    //   }
+    //   else if(this.state.filterClients === 2&& client.balance < 0){
+    //     return  (<MobileClient key={client.code} 
+    //         row={client} 
+    //         code={client.code} 
+    //         selectedProductCode={this.state.selectedProductCode}
+    //         cbShowCard={this.cbShowCard}
+    //         cbEdit={this.cbEdit}
+    //         cbDelete={this.cbDelete}
+    //         isChanged={this.state.isChanged}
+    //         isEdit={this.state.isEdit} />)
+    //   }
+
+    //         }
+    //         );
+
+
+// let clientsCode=this.state.clients.map( client => {
+//     // если выбраны все клиенты
+//     if(this.state.filterClients === '0'){
+//         return  (<MobileClient key={client.code} 
+//                             row={client} 
+//                             code={client.code} 
+//                             selectedProductCode={this.state.selectedProductCode}
+//                             cbShowCard={this.cbShowCard}
+//                             cbEdit={this.cbEdit}
+//                             cbDelete={this.cbDelete}
+//                             isChanged={this.state.isChanged}
+//                             isEdit={this.state.isEdit} />)
+//                             }
+    
+//     //если выбраны только активные клиенты
+//     else if(this.state.filterClients === '1'&& client.balance > 0){
+//         return  (<MobileClient key={client.code} 
+//             row={client} 
+//             code={client.code} 
+//             selectedProductCode={this.state.selectedProductCode}
+//             cbShowCard={this.cbShowCard}
+//             cbEdit={this.cbEdit}
+//             cbDelete={this.cbDelete}
+//             isChanged={this.state.isChanged}
+//             isEdit={this.state.isEdit} />)
+//       }
+//     //если выбраны только заблокированные клиенты
+//     else if(this.state.filterClients === '2'&&client.balance <= 0){
+//         return  (<MobileClient key={client.code} 
+//             row={client} 
+//             code={client.code} 
+//             selectedProductCode={this.state.selectedProductCode}
+//             cbShowCard={this.cbShowCard}
+//             cbEdit={this.cbEdit}
+//             cbDelete={this.cbDelete}
+//             isChanged={this.state.isChanged}
+//             isEdit={this.state.isEdit} />)
+//     }
+//   });
+// var clientsCode=this.state.clients.map( client=>{
+//             // если выбраны все клиенты
+//             if(this.state.filterClients === '0'){
+//                 return  (<MobileClient key={client.code} 
+//                 row={client} 
+//                 code={client.code} 
+//                 selectedProductCode={this.state.selectedProductCode}
+//                 cbShowCard={this.cbShowCard}
+//                 cbEdit={this.cbEdit}
+//                 cbDelete={this.cbDelete}
+//                 isChanged={this.state.isChanged}
+//                 isEdit={this.state.isEdit})} else if(this.state.filterClients === '1'&& client.balance > 0){
+//                 return  (<MobileClient key={client.code} 
+//                 row={client} 
+//                 code={client.code} 
+//                 selectedProductCode={this.state.selectedProductCode}
+//                 cbShowCard={this.cbShowCard}
+//                 cbEdit={this.cbEdit}
+//                 cbDelete={this.cbDelete}
+//                 isChanged={this.state.isChanged}
+//                 isEdit={this.state.isEdit})
+//                 }
+//               //если выбраны только заблокированные клиенты
+//               else if(this.state.clientsFilter === 'blocked'&&client.balance <= 0){
+//                    return <MobClient key={client.id} client={client} balance={client.balance} />
+//               }
+
+//     />
+// })
+//         var clientsCode=this.state.clients.filter((client, i)=>{
+//             if (this.state.filterClients="blocked"){
+//                 return console.log(this.state.filterClients)
+//             } else if (this.state.filterClients="all"){
+//                 return console.log(this.state.filterClients)
+//             }
+//             console.log(this.state.filterClients)
+
+  
+//            return client.balance<0
+//         }) 
+        
+//         console.log(clientsCode)       
+//         clientsCode=clientsCode.map( client=>{
+//             return  <MobileClient key={client.code} 
+//                         row={client} 
+//                         code={client.code} 
+//                         selectedProductCode={this.state.selectedProductCode}
+//                         cbShowCard={this.cbShowCard}
+//                         cbEdit={this.cbEdit}
+//                         cbDelete={this.cbDelete}
+//                         isChanged={this.state.isChanged}
+//                         isEdit={this.state.isEdit}
+//             />
+//         }
+//         );
+// console.log(clientsCode)
 // СТРОКА ДЛЯ РАБОТЫ
         let selectedClientRow=this.state.clients.find((v, i)=>v.code==this.state.selectedProductCode)
 
@@ -154,6 +358,9 @@ class MobileCompany extends React.PureComponent{
             <input type="button" value="Velcom" onClick={this.setName1} />
             <input type="button" value="МТС" onClick={this.setName2} />
             <div >Компания: {this.state.companyName}</div>
+            <input type="button" value="Все" onClick={this.allClients}/>
+            <input type="button" value="Активные" onClick={this.activeClients}/> 
+            <input type="button" value="Заблокированные" onClick={this.blockedClients}/>
             <table className='ProductsGrid'>
                 <tbody>
                     <tr> 

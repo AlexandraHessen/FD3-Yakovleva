@@ -19,6 +19,10 @@ class MobileClient extends React.Component{
         isEdit: PropTypes.bool,
     }
 
+    state={
+        activeStatus: (this.props.row.balance>=0)?"active":"blocked"
+    }
+
     // cbShowCard=(EO)=>{
     //     this.props.cbShowCard(this.props.code);
     // }
@@ -47,13 +51,23 @@ class MobileClient extends React.Component{
         mobileEvents.emit('EvDelete', this.props.code)
     }
 
+    componentWillReceiveProps = (newProps) => {
+        //console.log("MobileClient id="+this.props.id+" componentWillReceiveProps");
+        this.setState({
+          
+          activeStatus: (newProps.row.balance>=0)?"active":"blocked"
+        });
+        console.log(newProps)
+        console.log(this.state.activeStatus)
+      };
+
     render(){
         return <tr className={(this.props.selectedProductCode!==this.props.code)?'ProductRow':'ProductRow ProductRowSelect'} onClick={this.cbShowCard}>
             <td className='InfoGoods'>{this.props.row.surname}</td>
             <td className='InfoGoods'>{this.props.row.name}</td>
             <td className='InfoGoods'>{this.props.row.patronymic}</td>
             <td className='InfoGoods'>{this.props.row.balance}</td>
-            <td className='InfoGoods'>{this.props.row.balance}</td>
+            <td className={this.state.activeStatus + " InfoGoods"}>{this.state.activeStatus}</td>
             <td className='InfoGoods'>
                 <input type='button' value='Редактировать' className='EditButton' onClick={this.cbEdit} disabled={this.props.isChanged}/>
             </td>
