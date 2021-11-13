@@ -1,10 +1,5 @@
-.ProductRow .ImgGoods{
-    width: 80px;
-    height: 80px;
-}
-
-.ProductRow .InfoGoods{
-    border: 1px solid black;
+.ProductRow{
+    border-top: solid #e4e4e4 1px;
 }
 
 .ProductRow .InfoGoods:last-child{
@@ -12,7 +7,13 @@
 }
 
 .ProductRow .InfoGoods .DelButton, .EditButton{
-    width: 100%;
+    text-align: center;
+    margin: 10px;
+}
+
+.ProductRow .InfoGoods {
+    text-align: center;
+    
 }
 
 .ProductRowSelect{

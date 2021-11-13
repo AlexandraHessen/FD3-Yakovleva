@@ -136,9 +136,11 @@ class MobileCompany extends React.PureComponent{
             <input type="button" value="Velcom" onClick={this.setName1} />
             <input type="button" value="MTS" onClick={this.setName2} />
             <div >Компания: {this.state.companyName}</div>
+            <hr/>
             <input type="button" value="Все" onClick={this.allClients}/>
             <input type="button" value="Активные" onClick={this.activeClients}/> 
             <input type="button" value="Заблокированные" onClick={this.blockedClients}/>
+            <hr/>
             <table className='ProductsGrid'>
                 <tbody>
                     <tr> 
