@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import "./ClientEditAdd.css";
 import {mobileEvents} from './events';
 
-class ClientEditAdd extends React.Component{
+class ClientEditAdd extends React.PureComponent{
 
     static propTypes={
         code: PropTypes.number.isRequired,
@@ -47,53 +47,55 @@ class ClientEditAdd extends React.Component{
             })
             mobileEvents.emit('EvcbChanged', true)
     }
+// -------------------------------------VALID
+//     validate = (EO) =>{
+// // ----------------------- ВАЛИДАЦИЯ ВСЕХ ПОЛЕЙ ПРИ УХОДЕ С 1 ПОЛЯ-----------------------//
+//         if (this.newSurnameRef.value === ""){
+//             this.setState({nameNotValid: true}, this.validAll)
+//         } else{
+//             this.setState({nameNotValid: false}, this.validAll)
+//         }
 
-    validate = (EO) =>{
-// ----------------------- ВАЛИДАЦИЯ ВСЕХ ПОЛЕЙ ПРИ УХОДЕ С 1 ПОЛЯ-----------------------//
-        if (this.newSurnameRef.value === ""){
-            this.setState({nameNotValid: true}, this.validAll)
-        } else{
-            this.setState({nameNotValid: false}, this.validAll)
-        }
+//         if ((this.newNameRef.value === "")){
+//             this.setState({priceNotValid: true}, this.validAll)
+//         } else{
+//             this.setState({priceNotValid: false}, this.validAll)
+//         }
 
-        if ((this.newNameRef.value === "")){
-            this.setState({priceNotValid: true}, this.validAll)
-        } else{
-            this.setState({priceNotValid: false}, this.validAll)
-        }
+//         if (this.newPatronymicRef.value === ""){
+//             this.setState({urlNotValid: true}, this.validAll)
+//         } else{
+//             this.setState({urlNotValid: false}, this.validAll)
+//         }
 
-        if (this.newPatronymicRef.value === ""){
-            this.setState({urlNotValid: true}, this.validAll)
-        } else{
-            this.setState({urlNotValid: false}, this.validAll)
-        }
+//         if ((this.newBalanceRef.value === "")){
+//             this.setState({quantNotValid: true}, this.validAll)
+//         } else{
+//             this.setState({quantNotValid: false}, this.validAll)
+//         }
 
-        if ((this.newBalanceRef.value === "")){
-            this.setState({quantNotValid: true}, this.validAll)
-        } else{
-            this.setState({quantNotValid: false}, this.validAll)
-        }
+// // ----------------------- ВАЛИДАЦИЯ ОДНОГО ПОЛЯ ЧЕРЕЗ EO.target.name -----------------------//
+//                 // ----------------------- ОДНА ДЛЯ ВСЕХ -----------------------//
+// //    if (this.state[EO.target.name] === ""){
+// //          this.setState({[EO.target.name + "NotValid"]: true}, this.validAll)
+// //    }else{
+// //          this.setState({[EO.target.name + "NotValid"]: false}, this.validAll)
+// //    }
+//     }
 
-// ----------------------- ВАЛИДАЦИЯ ОДНОГО ПОЛЯ ЧЕРЕЗ EO.target.name -----------------------//
-                // ----------------------- ОДНА ДЛЯ ВСЕХ -----------------------//
-//    if (this.state[EO.target.name] === ""){
-//          this.setState({[EO.target.name + "NotValid"]: true}, this.validAll)
-//    }else{
-//          this.setState({[EO.target.name + "NotValid"]: false}, this.validAll)
-//    }
-    }
+//     validAll=()=>{
+//         if (this.state.nameNotValid||
+//             this.state.priceNotValid||
+//             this.state.urlNotValid||
+//             this.state.quantNotValid)
+//                 {this.setState({notValidForm: true})
+//                 this.props.cbChanged(true)
+//         } else {
+//                 this.setState({notValidForm: false})
+//         }
+//     }
+// -------------------------------------VALID
 
-    validAll=()=>{
-        if (this.state.nameNotValid||
-            this.state.priceNotValid||
-            this.state.urlNotValid||
-            this.state.quantNotValid)
-                {this.setState({notValidForm: true})
-                this.props.cbChanged(true)
-        } else {
-                this.setState({notValidForm: false})
-        }
-    }
 
     // validAll=()=>{
     //     if (this.newSurnameRef.value||
@@ -233,6 +235,7 @@ class ClientEditAdd extends React.Component{
 
 
     render(){
+        console.log("Client Edit or Add render")
         return(
             <div className="ClientEditAdd">
                 {

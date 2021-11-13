@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import memoize from 'memoizee';
 
 import "./MobileCompany.css";
 import {mobileEvents} from './events';
 
+
 import MobileClient from "./MobileClient";
 import ClientEditAdd from "./ClientEditAdd";
-import ClientCard from "./ClientCard";
+// import ClientCard from "./ClientCard";
 
 class MobileCompany extends React.PureComponent{
     static propTypes = {
@@ -17,9 +19,9 @@ class MobileCompany extends React.PureComponent{
     state ={
         companyName: this.props.companyName,
         clients: this.props.clients,
-        filterClients: 0,
+        filterClients: 0, // фильтрация клиентов 0 - все , 1 - Активные, 2 - Заблокированные
         // companyName: this.props.companyName.slice(),
-        selectedProductCode: null,
+        selectedClientCode: null,
         cardMode: 0,  // 0 - ничего не выводим, 1 - просмотр карточки товара, 2 - редактирование и создание товара
         isEdit: false, // = true когда карточка  в режиме редактирования
         isDelete: false,
@@ -67,53 +69,140 @@ class MobileCompany extends React.PureComponent{
         if (!this.state.isChanged){
             this.setState({
                 cardMode: 1, 
-                selectedProductCode: code, 
+                selectedClientCode: code, 
                 isEdit: false
             })
         }
     }
 
     cbEdit=(code)=>{
-        if (!this.state.isChanged){
+       
             this.setState({
                 cardMode: 2, 
-                selectedProductCode: code,
-                isEdit: true
-            })
-        }
+                selectedClientCode: code,
+          
+        })
+        // if (!this.state.isChanged){
+        //     this.setState({
+        //         cardMode: 2, 
+        //         selectedClientCode: code,
+        //         // isEdit: true
+        //     })
+        // }
     }
+
+    // cbEdit=(code)=>{
+    //     if (!this.state.isChanged){
+    //         let changed=false;
+    //         let newClients=[...this.state.clients]; // копия массива клиентов // ...  поверхностная копия (только массив элементов(ссылки на хэши)сами хэши не копировались)
+    //         newClients.forEach( (c,i) => {
+    //             // if ( c.code==code && c.balance!=newBalance ) { // 1. находим изменненного клиенты 
+    //           if ( c.code==code) { // 1. находим изменненного клиенты 
+    //             let newClient={...c}; // 2. копируем объект изменненного клиенты 
+    //             // newClient.balance=newBalance;// 3. заменяем баланс копии изменненного клиента на измененный баланс
+    //             newClients[i]=newClient;// 4. заменяем в массиве копии клиентов, клиента на нового такого клиента с измененным балансом
+    //             changed=true;
+    //         }
+    //         } );
+    //         if ( changed ){this.setState({clients:newClients,
+    //             cardMode: 2, 
+    //             selectedClientCode: code,
+    //             isEdit: true
+    //         });}
+       
+    //     }
+    // }
+    
+    // setBalance = (code) => {
+    //     let changed=false;
+    //     let newClients=[...this.state.clients]; // копия массива клиентов // ...  поверхностная копия (только массив элементов(ссылки на хэши)сами хэши не копировались)
+    //     newClients.forEach( (c,i) => {
+    //         // if ( c.code==code && c.balance!=newBalance ) { // 1. находим изменненного клиенты 
+    //       if ( c.code==code) { // 1. находим изменненного клиенты 
+    //         let newClient={...c}; // 2. копируем объект изменненного клиенты 
+    //         // newClient.balance=newBalance;// 3. заменяем баланс копии изменненного клиента на измененный баланс
+    //         newClients[i]=newClient;// 4. заменяем в массиве копии клиентов, клиента на нового такого клиента с измененным балансом
+    //         changed=true;
+    //       }
+    //     } );
+    //     if ( changed )
+    //       this.setState({clients:newClients});
+    //   };
+
+
+    // add=()=>{
+    //     if (!this.state.isChanged && !this.state.isEdit){
+    //         let code=this.state.clients.length
+    //         this.setState({
+    //             selectedClientCode: ++code,
+    //             cardMode: 2, 
+    //             isAdd: true,
+    //         })
+    //     }
+    // }
 
     add=()=>{
-        if (!this.state.isChanged && !this.state.isEdit){
+    
             let code=this.state.clients.length
             this.setState({
-                selectedProductCode: ++code,
+                selectedClientCode: ++code,
                 cardMode: 2, 
-                isAdd: true,
+                // isAdd: true,
             })
-        }
+        
+        // if (!this.state.isChanged && !this.state.isEdit){
+        //     let code=this.state.clients.length
+        //     this.setState({
+        //         selectedClientCode: ++code,
+        //         cardMode: 2, 
+        //         isAdd: true,
+        //     })
+        // }
     }
+
+
+
+    // cbSave=(editRow)=>{
+    //     let editGoods=this.state.clients.map(row=>(row.code==editRow.code)?editRow:row)
+    //     this.setState({
+    //         cardMode: 0, 
+    //         clients: editGoods,
+    //         isEdit: false
+    //     })
+    // }
 
     cbSave=(editRow)=>{
-        let editGoods=this.state.clients.map(row=>(row.code==editRow.code)?editRow:row)
+        let newClients=[...this.state.clients];
+        newClients=newClients.map(row=>(row.code==editRow.code)?editRow:row)
         this.setState({
             cardMode: 0, 
-            clients: editGoods,
-            isEdit: false
+            clients: newClients,
+            //  isEdit: false
         })
     }
 
+
     cbAdd=(newRow)=>{
-        this.state.clients.push(newRow)
+        let newClients=[...this.state.clients];
+        newClients.push(newRow)
         this.setState({
             cardMode: 0, 
+            clients: newClients,
         })
     }
+
+    // cbAdd=(newRow)=>{
+    //     this.state.clients.push(newRow)
+    //     this.setState({
+    //         cardMode: 0, 
+    //     })
+    // }
 
     cbDelete=(code)=>{
         if (!this.state.isChanged && !this.state.isEdit){
             if(confirm('Вы действительно хотите удалить товар?')){
-                let result=this.state.clients;
+                // let result=this.state.clients;
+                let result= [...this.state.clients]; // копия массива клиентов
                 result=result.filter(s=>(s.code!==code));
                 this.setState({
                     cardMode: 0,
@@ -130,14 +219,11 @@ class MobileCompany extends React.PureComponent{
     }
 
     filterClients=(how)=>{
-        console.log(how)
         // let changed=false;
         let newClients=[...this.state.clients]; // копия массива клиентов // ...  поверхностная копия (только массив элементов(ссылки на хэши)сами хэши не копировались)
         newClients=newClients.filter((client, i)=>{
-            console.log(client.balance<0)
            return client.balance<0
         })
-        console.log(newClients)
         // newClients.filter( (client,i) => {
         //     if(client.balance<0){
 
@@ -150,62 +236,177 @@ class MobileCompany extends React.PureComponent{
         //   }
         // } );
         this.setState({clients: newClients});
-        console.log(newClients)
         // if ( changed )
         //   this.setState({clients:newClients});
     }
     allClients=()=>{
         this.setState({filterClients: 0})
-        console.log(this.state.filterClients)
     }
     activeClients=()=>{
         this.setState({filterClients: 1})
     }
     blockedClients=()=>{
         this.setState({filterClients: 2})
-        console.log(this.state.filterClients)
     }
 
     render(){
-        console.log(this.state.filterClients)
-        console.log(this.state.clients)
+        console.log("Company render")
+        // console.log(this.state.filterClients)
+        // console.log(this.state.clients)
 // ----------------------- ТАБЛИЦА КЛИЕНТОВ -----------------------//  
-let newClients=[...this.state.clients];
-var clientsCode=newClients.filter((client, i)=>{
-if (this.state.filterClients === 0){
-return client
-}
-if(this.state.filterClients === 1&& client.balance >= 0){
-    // this.setState({clients[i].active="active"})
-    return client
-}
-if(this.state.filterClients === 2&& client.balance < 0){
-    // this.setState({clients[i].active="blocked"})
-    return client
-}
-}
+        let newClients=[...this.state.clients];
+        var clientsCode=newClients.filter((client, i)=>{
+        if (this.state.filterClients === 0){
+        return client
+        }
+        if(this.state.filterClients === 1&& client.balance >= 0){
+            // this.setState({clients[i].active="active"})
+            return client
+        }
+        if(this.state.filterClients === 2&& client.balance < 0){
+            // this.setState({clients[i].active="blocked"})
+            return client
+        }
+        }
+        )
+
+        clientsCode=clientsCode.map( client=>{
+            return  <MobileClient key={client.code} 
+                        row={client} 
+                        // code={client.code} 
+                        // selectedClientCode={this.state.selectedClientCode}
+                        // cbShowCard={this.cbShowCard}
+                        // cbEdit={this.cbEdit}
+                        // cbDelete={this.cbDelete}
+                        // isChanged={this.state.isChanged}
+                        // isEdit={this.state.isEdit}
+            />
+        }
+        );
+
+
+        //         let clientsCode=this.state.clients.map( client=>{
+        //     return  <MobileClient key={client.code} 
+        //                 row={client} 
+        //                 code={client.code} 
+        //                 selectedClientCode={this.state.selectedClientCode}
+        //                 cbShowCard={this.cbShowCard}
+        //                 cbEdit={this.cbEdit}
+        //                 cbDelete={this.cbDelete}
+        //                 isChanged={this.state.isChanged}
+        //                 isEdit={this.state.isEdit}
+        //     />
+        // }
+        // );
 
 
 
-)
-clientsCode=clientsCode.map( client=>{
-    return  <MobileClient key={client.code} 
-                row={client} 
-                code={client.code} 
-                selectedProductCode={this.state.selectedProductCode}
-                cbShowCard={this.cbShowCard}
-                cbEdit={this.cbEdit}
-                cbDelete={this.cbDelete}
-                isChanged={this.state.isChanged}
-                isEdit={this.state.isEdit}
-    />
-}
-);
+
+
+
+        // let newClients=[...this.state.clients];
+
+        // let sort = (newClients) =>{
+        //     return newClients.filter((client, i)=>{
+        //         if (this.state.filterClients === 0){
+        //         return client
+        //         }
+        //         if(this.state.filterClients === 1&& client.balance >= 0){
+        //             // this.setState({clients[i].active="active"})
+        //             return client
+        //         }
+        //         if(this.state.filterClients === 2&& client.balance < 0){
+        //             // this.setState({clients[i].active="blocked"})
+        //             return client
+        //         }
+        //         }
+        //         )
+        //         .map( client=>{
+        //             return  <MobileClient key={client.code} 
+        //                         row={client} 
+        //                         code={client.code} 
+        //                         selectedClientCode={this.state.selectedClientCode}
+        //                         cbShowCard={this.cbShowCard}
+        //                         cbEdit={this.cbEdit}
+        //                         cbDelete={this.cbDelete}
+        //                         isChanged={this.state.isChanged}
+        //                         isEdit={this.state.isEdit}
+        //             />
+        //         }
+        //         );
+        // }
+
+        
+        // var clientsCode=newClients.filter((client, i)=>{
+        // if (this.state.filterClients === 0){
+        // return client
+        // }
+        // if(this.state.filterClients === 1&& client.balance >= 0){
+        //     // this.setState({clients[i].active="active"})
+        //     return client
+        // }
+        // if(this.state.filterClients === 2&& client.balance < 0){
+        //     // this.setState({clients[i].active="blocked"})
+        //     return client
+        // }
+        // }
+        // )
+
+
+        // function clientsCodeFunc(){
+        //     clientsCode=clientsCode.map( client=>{
+        //         return  <MobileClient key={client.code} 
+        //                     row={client} 
+        //                     code={client.code} 
+        //                     selectedClientCode={this.state.selectedClientCode}
+        //                     cbShowCard={this.cbShowCard}
+        //                     cbEdit={this.cbEdit}
+        //                     cbDelete={this.cbDelete}
+        //                     isChanged={this.state.isChanged}
+        //                     isEdit={this.state.isEdit}
+        //         />
+        //     }
+        //     );
+            
+        // }
+
+
+
+
+
+
+
+        
+
+
+// let clientsCodeFunc=()=>{
+//     clientsCode=clientsCode.map( client=>{
+//         return  <MobileClient key={client.code} 
+//                     row={client} 
+//                     code={client.code} 
+//                     selectedClientCode={this.state.selectedClientCode}
+//                     cbShowCard={this.cbShowCard}
+//                     cbEdit={this.cbEdit}
+//                     cbDelete={this.cbDelete}
+//                     isChanged={this.state.isChanged}
+//                     isEdit={this.state.isEdit}
+//         />
+//     }
+//     );
+    
+// }
+
+// let clientsCodeMemoizeed=memoize(clientsCodeFunc);
+
+
+
+
+
             // var clientsCode=this.state.clients.map( client=>{
             //     return  <MobileClient key={client.code} 
             //                 row={client} 
             //                 code={client.code} 
-            //                 selectedProductCode={this.state.selectedProductCode}
+            //                 selectedClientCode={this.state.selectedClientCode}
             //                 cbShowCard={this.cbShowCard}
             //                 cbEdit={this.cbEdit}
             //                 cbDelete={this.cbDelete}
@@ -220,7 +421,7 @@ clientsCode=clientsCode.map( client=>{
     //                 return  <MobileClient key={client.code} 
     //                 row={client} 
     //                 code={client.code} 
-    //                 selectedProductCode={this.state.selectedProductCode}
+    //                 selectedClientCode={this.state.selectedClientCode}
     //                 cbShowCard={this.cbShowCard}
     //                 cbEdit={this.cbEdit}
     //                 cbDelete={this.cbDelete}
@@ -232,7 +433,7 @@ clientsCode=clientsCode.map( client=>{
     //     return  (<MobileClient key={client.code} 
     //         row={client} 
     //         code={client.code} 
-    //         selectedProductCode={this.state.selectedProductCode}
+    //         selectedClientCode={this.state.selectedClientCode}
     //         cbShowCard={this.cbShowCard}
     //         cbEdit={this.cbEdit}
     //         cbDelete={this.cbDelete}
@@ -243,7 +444,7 @@ clientsCode=clientsCode.map( client=>{
     //     return  (<MobileClient key={client.code} 
     //         row={client} 
     //         code={client.code} 
-    //         selectedProductCode={this.state.selectedProductCode}
+    //         selectedClientCode={this.state.selectedClientCode}
     //         cbShowCard={this.cbShowCard}
     //         cbEdit={this.cbEdit}
     //         cbDelete={this.cbDelete}
@@ -261,7 +462,7 @@ clientsCode=clientsCode.map( client=>{
 //         return  (<MobileClient key={client.code} 
 //                             row={client} 
 //                             code={client.code} 
-//                             selectedProductCode={this.state.selectedProductCode}
+//                             selectedClientCode={this.state.selectedClientCode}
 //                             cbShowCard={this.cbShowCard}
 //                             cbEdit={this.cbEdit}
 //                             cbDelete={this.cbDelete}
@@ -274,7 +475,7 @@ clientsCode=clientsCode.map( client=>{
 //         return  (<MobileClient key={client.code} 
 //             row={client} 
 //             code={client.code} 
-//             selectedProductCode={this.state.selectedProductCode}
+//             selectedClientCode={this.state.selectedClientCode}
 //             cbShowCard={this.cbShowCard}
 //             cbEdit={this.cbEdit}
 //             cbDelete={this.cbDelete}
@@ -286,7 +487,7 @@ clientsCode=clientsCode.map( client=>{
 //         return  (<MobileClient key={client.code} 
 //             row={client} 
 //             code={client.code} 
-//             selectedProductCode={this.state.selectedProductCode}
+//             selectedClientCode={this.state.selectedClientCode}
 //             cbShowCard={this.cbShowCard}
 //             cbEdit={this.cbEdit}
 //             cbDelete={this.cbDelete}
@@ -300,7 +501,7 @@ clientsCode=clientsCode.map( client=>{
 //                 return  (<MobileClient key={client.code} 
 //                 row={client} 
 //                 code={client.code} 
-//                 selectedProductCode={this.state.selectedProductCode}
+//                 selectedClientCode={this.state.selectedClientCode}
 //                 cbShowCard={this.cbShowCard}
 //                 cbEdit={this.cbEdit}
 //                 cbDelete={this.cbDelete}
@@ -309,7 +510,7 @@ clientsCode=clientsCode.map( client=>{
 //                 return  (<MobileClient key={client.code} 
 //                 row={client} 
 //                 code={client.code} 
-//                 selectedProductCode={this.state.selectedProductCode}
+//                 selectedClientCode={this.state.selectedClientCode}
 //                 cbShowCard={this.cbShowCard}
 //                 cbEdit={this.cbEdit}
 //                 cbDelete={this.cbDelete}
@@ -340,7 +541,7 @@ clientsCode=clientsCode.map( client=>{
 //             return  <MobileClient key={client.code} 
 //                         row={client} 
 //                         code={client.code} 
-//                         selectedProductCode={this.state.selectedProductCode}
+//                         selectedClientCode={this.state.selectedClientCode}
 //                         cbShowCard={this.cbShowCard}
 //                         cbEdit={this.cbEdit}
 //                         cbDelete={this.cbDelete}
@@ -350,13 +551,15 @@ clientsCode=clientsCode.map( client=>{
 //         }
 //         );
 // console.log(clientsCode)
+
+
 // СТРОКА ДЛЯ РАБОТЫ
-        let selectedClientRow=this.state.clients.find((v, i)=>v.code==this.state.selectedProductCode)
+         let selectedClientRow=this.state.clients.find((v, i)=>v.code==this.state.selectedClientCode)
 
         return (
         <div>
             <input type="button" value="Velcom" onClick={this.setName1} />
-            <input type="button" value="МТС" onClick={this.setName2} />
+            <input type="button" value="MTS" onClick={this.setName2} />
             <div >Компания: {this.state.companyName}</div>
             <input type="button" value="Все" onClick={this.allClients}/>
             <input type="button" value="Активные" onClick={this.activeClients}/> 
@@ -373,27 +576,28 @@ clientsCode=clientsCode.map( client=>{
                         <th className='Header'>Удалить</th>
                     </tr>
                     {clientsCode}
+                    {/* {clientsCodeMemoizeed} */}
                 </tbody>
             </table>
             <input type='button' value='Добавить клиента' onClick={this.add} disabled={this.state.isChanged||this.state.isEdit}/>
 
-{/*----------------------- ПРОСМОТР КАРТОЧКИ КЛИЕНТА -----------------------*/}            
+{/* ----------------------- ПРОСМОТР КАРТОЧКИ КЛИЕНТА -----------------------            
             {
                 (this.state.cardMode=="1") &&
                 <ClientCard row={selectedClientRow} 
                 />
-            }
+            } */}
 
 {/*----------------------- РЕДАКТИРОВАНИЕ И СОЗДАНИЕ -----------------------*/}
             {
                 (this.state.cardMode=="2") &&
-                <ClientEditAdd key={this.state.selectedProductCode} 
-                            code={this.state.selectedProductCode} 
+                <ClientEditAdd key={this.state.selectedClientCode} 
+                            code={this.state.selectedClientCode} 
                             row={selectedClientRow} 
-                            cbSave={this.cbSave}
-                            cbAdd={this.cbAdd}
-                            cbChanged={this.cbChanged}
-                            cbCancel={this.cbCancel}
+                            // cbSave={this.cbSave}
+                            // cbAdd={this.cbAdd}
+                            // cbChanged={this.cbChanged}
+                            // cbCancel={this.cbCancel}
                 />
             }
         </div>
