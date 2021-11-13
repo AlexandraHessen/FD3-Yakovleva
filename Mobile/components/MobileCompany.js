@@ -62,7 +62,7 @@ class MobileCompany extends React.PureComponent{
     }
 
     evSave=(editRow)=>{
-        let newClients=[...this.state.clients];
+        let newClients=[...this.state.clients]; // копия массива клиентов
         newClients=newClients.map(row=>(row.code==editRow.code)?editRow:row)
         this.setState({
             cardMode: 0, 
@@ -81,7 +81,7 @@ class MobileCompany extends React.PureComponent{
 
     evDelete=(code)=>{
         if(confirm('Вы действительно хотите удалить товар?')){
-            let result= [...this.state.clients]; // копия массива клиентов
+            let result= [...this.state.clients]; 
             result=result.filter(s=>(s.code!==code));
             this.setState({
                 cardMode: 0,
@@ -107,7 +107,7 @@ class MobileCompany extends React.PureComponent{
 
     render(){
         console.log("Company render")
-        
+
 // ----------------------- ТАБЛИЦА КЛИЕНТОВ -----------------------//  
         let newClients=[...this.state.clients];
         var clientsCode=newClients.filter((client, i)=>{
