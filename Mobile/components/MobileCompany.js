@@ -55,8 +55,7 @@ class MobileCompany extends React.PureComponent{
     }
 
     add=()=>{
-        let code=++this.state.lastAddCode
-        // let code=Math.random()
+        let code=this.state.lastAddCode+1
         this.setState({
             selectedClientCode: code,
             cardMode: 1, 
