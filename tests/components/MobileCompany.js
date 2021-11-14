@@ -72,14 +72,12 @@ class MobileCompany extends React.PureComponent{
     }
 
     evDelete=(code)=>{
-        if(confirm('Вы действительно хотите удалить товар?')){
-            let result= [...this.state.clients]; 
-            result=result.filter(s=>(s.code!==code));
+            let newClients= [...this.state.clients]; 
+            newClients=newClients.filter(s=>(s.code!==code));
             this.setState({
                 cardMode: 0,
-                clients: result,
+                clients: newClients,
             })
-        } 
     }
 
     evCancel=()=>{

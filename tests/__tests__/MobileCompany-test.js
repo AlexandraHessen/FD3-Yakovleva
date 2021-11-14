@@ -31,13 +31,6 @@ test("работа кнопок Filter", ()=>{
     componentTree=component.toJSON();
     expect(componentTree).toMatchSnapshot();
 
-                            // "нажмём" кнопку ещё раз
-    buttonAll.props.onClick();
-  
-                            // 3. и получаем окончательный снэпшот
-    componentTree=component.toJSON();
-    expect(componentTree).toMatchSnapshot();
-
                             // найдём в вёрстке компонента саму кнопку
                             // в верстке <input type="button" value="Активные" onClick={this.activeClients}/> 
                             const buttonActive = component.root.find( el => el.type=='input' && el.props.value == 'Активные' ); 
@@ -45,13 +38,6 @@ test("работа кнопок Filter", ()=>{
     buttonActive.props.onClick();
 
                             // 2. получаем уже изменённый снэпшот
-    componentTree=component.toJSON();
-    expect(componentTree).toMatchSnapshot();
-
-                            // "нажмём" кнопку ещё раз
-    buttonActive.props.onClick();
-  
-                            // 3. и получаем окончательный снэпшот
     componentTree=component.toJSON();
     expect(componentTree).toMatchSnapshot();
 
@@ -65,12 +51,62 @@ test("работа кнопок Filter", ()=>{
     componentTree=component.toJSON();
     expect(componentTree).toMatchSnapshot();
 
-                            // "нажмём" кнопку ещё раз
-    buttonBlock.props.onClick();
-  
-                            // 3. и получаем окончательный снэпшот
+})
+
+test("работа кнопки Add", ()=>{
+                              // создаём тестовую версию компонента который будем тестировать
+    const component = renderer.create(
+        <MobileCompany  clients={clientsArr}/> // с нужными данными для построения
+    );
+
+                            // 1. получаем снэпшот (HTML-снимок) компонента для сверки, чтобы вёрстка не испортилась
+    let componentTree=component.toJSON();
+    expect(componentTree).toMatchSnapshot();
+
+                            // имитируем добавление нового клиента
+    let newClient={code: 5, surname: "Романов", name: "Роман", patronymic: "Романович", balance: -400};
+    component.getInstance().evAdd(newClient); //evAdd=(newRow)=> функция добавления в MobileCompany
+
+                            //получаем снимок с новым клиентом
     componentTree=component.toJSON();
     expect(componentTree).toMatchSnapshot();
-}
+})
 
-)
+test("работа кнопки Delete", ()=>{
+  // создаём тестовую версию компонента который будем тестировать
+    const component = renderer.create(
+    <MobileCompany  clients={clientsArr}/> // с нужными данными для построения
+    );
+
+    // 1. получаем снэпшот (HTML-снимок) компонента для сверки, чтобы вёрстка не испортилась
+    let componentTree=component.toJSON();
+    expect(componentTree).toMatchSnapshot();
+
+    // имитируем удаление клиента
+    component.getInstance().evDelete(2); //evDelete=(code)=> функция удаления в MobileCompany
+
+    //получаем снимок с новым клиентом
+    componentTree=component.toJSON();
+    expect(componentTree).toMatchSnapshot();
+})
+
+// 
+
+test("работа кнопки Edit", ()=>{
+  // создаём тестовую версию компонента который будем тестировать
+    const component = renderer.create(
+    <MobileCompany  clients={clientsArr}/> // с нужными данными для построения
+    );
+
+    // 1. получаем снэпшот (HTML-снимок) компонента для сверки, чтобы вёрстка не испортилась
+    let componentTree=component.toJSON();
+    expect(componentTree).toMatchSnapshot();
+
+    // имитируем изменение клиента
+    let editRow={code: 1, surname: "Edit", name: "Edit", patronymic: "Edit", balance: 0}
+    component.getInstance().evSave(editRow); //evSave=(editRow)=> функция сохранениея изменений в MobileCompany
+
+    //получаем снимок с новым клиентом
+    componentTree=component.toJSON();
+    expect(componentTree).toMatchSnapshot();
+})
