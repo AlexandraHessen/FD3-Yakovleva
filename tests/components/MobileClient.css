@@ -1,0 +1,29 @@
+.ProductRow{
+    border-top: solid #e4e4e4 1px;
+}
+
+.ProductRow .InfoGoods:last-child{
+    position: relative;
+}
+
+.ProductRow .InfoGoods .DelButton, .EditButton{
+    text-align: center;
+    margin: 10px;
+}
+
+.ProductRow .InfoGoods {
+    text-align: center;
+    
+}
+
+.ProductRowSelect{
+    background-color: #ffff40;
+}
+
+.ProductRow .active{
+    background-color: rgba(40, 167, 69, 0.83);
+}
+
+.ProductRow .blocked{
+    background-color: rgba(220, 53, 69, 0.86);
+}

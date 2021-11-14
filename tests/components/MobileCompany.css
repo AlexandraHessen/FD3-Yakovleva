@@ -1,0 +1,10 @@
+ .ProductsGrid{
+
+    border-collapse: collapse;
+}
+
+.ProductsGrid .Header{
+    border-bottom: solid #e4e4e4 2px;
+    border-top: solid #e4e4e4 1px;
+    padding: 10px
+} 
