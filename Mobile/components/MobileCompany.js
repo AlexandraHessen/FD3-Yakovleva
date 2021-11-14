@@ -20,6 +20,7 @@ class MobileCompany extends React.PureComponent{
         filterClients: 0, // фильтрация клиентов 0 - все , 1 - Активные, 2 - Заблокированные
         selectedClientCode: null,
         cardMode: 0,  // 0 - ничего не выводим, 1 - редактирование и создание товара
+        lastAddCode: this.props.clients.length
     }
 
     setName1 = () => {
@@ -54,10 +55,12 @@ class MobileCompany extends React.PureComponent{
     }
 
     add=()=>{
-        let code=this.state.clients.length
+        let code=++this.state.lastAddCode
+        // let code=Math.random()
         this.setState({
-            selectedClientCode: ++code,
+            selectedClientCode: code,
             cardMode: 1, 
+            lastAddCode: code
         })
     }
 
