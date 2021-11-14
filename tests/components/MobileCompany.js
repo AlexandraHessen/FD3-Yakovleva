@@ -45,7 +45,7 @@ class MobileCompany extends React.PureComponent{
     }
 
     add=()=>{
-        let code=this.state.lastAddCode+1
+        let code=this.state.lastAddCode+1  //ТАК НЕЛЬЗЯ let code=++this.state.lastAddCode  вы мутируете стейт! 
         this.setState({
             selectedClientCode: code,
             cardMode: 1, 
